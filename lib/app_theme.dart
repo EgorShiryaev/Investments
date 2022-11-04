@@ -8,6 +8,7 @@ class AppTheme {
   static const _secondaryColor = Color(0xFF9E9E9E); // ~9%
   static const _tertiaryColor = Color(0xFF0B6CFF); // ~1%
   static const _onTertiaryColor = Color(0xFFFFFFFF);
+  static const _errorContainerColor = Color(0xFFFF0000);
 
   final _colorScheme = const ColorScheme.light(
     background: _backgroundColor,
@@ -17,6 +18,10 @@ class AppTheme {
     secondary: _secondaryColor,
     tertiary: _tertiaryColor,
     onTertiary: _onTertiaryColor,
+    errorContainer: _errorContainerColor,
+    error: _errorContainerColor,
+    onError: _errorContainerColor,
+    onErrorContainer: _errorContainerColor,
   );
 
   final _textTheme = const TextTheme(
@@ -48,13 +53,13 @@ class AppTheme {
   );
 
   final _inputDecorationTheme = const InputDecorationTheme(
-    fillColor: _backgroundColor,
     filled: true,
+    fillColor: _backgroundColor,
+    focusColor: _primaryColor,
     focusedBorder: InputBorder.none,
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(color: _secondaryColor, width: 1),
     ),
-    focusColor: _primaryColor,
     labelStyle: TextStyle(
       fontSize: 16,
       color: _secondaryColor,

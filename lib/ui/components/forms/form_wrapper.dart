@@ -35,15 +35,13 @@ class _FormWrapperState extends State<FormWrapper> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           ...widget.fields,
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: ElevatedButton(
-              onPressed: () {
-                changeToAlwaysValidateMode();
-                widget.onSubmit();
-              },
-              child: const Text('Далее'),
-            ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              changeToAlwaysValidateMode();
+              widget.onSubmit();
+            },
+            child: const Text('Далее'),
           )
         ],
       ),

@@ -17,10 +17,9 @@ class Link extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 15),
         child: Text(
           text,
-          style: Theme.of(context)
-              .textTheme
-              .labelMedium
-              ?.apply(color: Theme.of(context).colorScheme.tertiary),
+          style: Theme.of(context).textTheme.labelMedium?.apply(
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
         ),
       ),
     );

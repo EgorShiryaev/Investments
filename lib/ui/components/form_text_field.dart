@@ -47,26 +47,35 @@ class _FormTextFieldState extends State<FormTextField> {
     });
   }
 
+  void focusNextField() {
+    if (widget.nextFocusNode == null) {
+      FocusScope.of(context).unfocus();
+    } else {
+      FocusScope.of(context).requestFocus(widget.nextFocusNode);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Material(
+        color: Theme.of(context).colorScheme.background,
         elevation: isFocused ? 10 : 0,
         child: Focus(
           onFocusChange: changeIsFocus,
           child: TextFormField(
             decoration: InputDecoration(
               label: Text(widget.label),
-              suffixIcon: buildVisibleIcon(),
+              suffixIcon: widget.obscureText != true
+                  ? null
+                  : IconButton(
+                      icon: Icon(
+                          isHidden ? Icons.visibility : Icons.visibility_off),
+                      onPressed: changeIsVisible,
+                    ),
             ),
-            onEditingComplete: () {
-              if (widget.nextFocusNode == null) {
-                FocusScope.of(context).unfocus();
-              } else {
-                FocusScope.of(context).requestFocus(widget.nextFocusNode);
-              }
-            },
+            onEditingComplete: focusNextField,
             onFieldSubmitted: widget.onFieldSubmitted,
             focusNode: widget.focusNode,
             obscureText: isHidden,
@@ -75,16 +84,6 @@ class _FormTextFieldState extends State<FormTextField> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget? buildVisibleIcon() {
-    if (widget.obscureText != true) {
-      return null;
-    }
-    return IconButton(
-      icon: Icon(isHidden ? Icons.visibility : Icons.visibility_off),
-      onPressed: changeIsVisible,
     );
   }
 }
