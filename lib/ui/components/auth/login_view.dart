@@ -75,6 +75,7 @@ class LoginView extends StatelessWidget {
                       onPress: BlocProvider.of<AuthNavigationCubit>(context)
                           .navigateToSignUp,
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
