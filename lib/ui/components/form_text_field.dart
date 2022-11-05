@@ -8,6 +8,7 @@ class FormTextField extends StatefulWidget {
   final FocusNode focusNode;
   final FocusNode? nextFocusNode;
   final void Function(String? value)? onFieldSubmitted;
+  final TextInputType? keyboardType;
 
   const FormTextField({
     super.key,
@@ -17,7 +18,8 @@ class FormTextField extends StatefulWidget {
     required this.controller,
     required this.focusNode,
     this.nextFocusNode,
-    this.onFieldSubmitted,
+    this.onFieldSubmitted, 
+    this.keyboardType,
   });
 
   @override
@@ -65,13 +67,15 @@ class _FormTextFieldState extends State<FormTextField> {
         child: Focus(
           onFocusChange: changeIsFocus,
           child: TextFormField(
+            keyboardType: widget.keyboardType,
             decoration: InputDecoration(
               label: Text(widget.label),
               suffixIcon: widget.obscureText != true
                   ? null
                   : IconButton(
                       icon: Icon(
-                          isHidden ? Icons.visibility : Icons.visibility_off),
+                        isHidden ? Icons.visibility : Icons.visibility_off,
+                      ),
                       onPressed: changeIsVisible,
                     ),
             ),

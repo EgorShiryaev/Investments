@@ -27,7 +27,7 @@ class LoginDataRepository {
   Future<void> saveLoginData(LoginData loginData) async {
     await Future.wait([
       _localDatasource.saveEmail(loginData.email),
-      _localDatasource.savepassword(loginData.password),
+      _localDatasource.savePassword(loginData.password),
     ]);
   }
 

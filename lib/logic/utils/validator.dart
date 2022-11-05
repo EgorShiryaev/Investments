@@ -42,7 +42,7 @@ String? validateConfirmPasswordfField(String? value, String password) {
     return _empty;
   }
 
-  if (value == password) {
+  if (value != password) {
     return 'Пароли не совпадают';
   }
 

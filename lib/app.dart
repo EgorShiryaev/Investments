@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_theme.dart';
-import 'ui/pages/auth/login_page.dart';
+import 'ui/modules/auth_module.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -8,9 +8,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Investments',
       theme: AppTheme().light,
-      home: const StartPage(),
+      home: const AuthModule(),
     );
   }
 }

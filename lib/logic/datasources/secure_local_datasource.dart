@@ -22,7 +22,7 @@ class SecureLocalDatasource {
     await _secureStorage.write(key: _emailKey, value: email);
   }
 
-  Future<void> savepassword(String newpassword) async {
+  Future<void> savePassword(String newpassword) async {
     await _secureStorage.write(key: _passworkKey, value: newpassword);
   }
 

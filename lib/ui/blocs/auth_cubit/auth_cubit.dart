@@ -36,6 +36,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> login(LoginData data) async {
+    emit(LoadingState());
     await _userUsecases.login(data).then((value) {
       emit(AuthorizedState(user: value));
       _loginDataUsecases.saveLoginData(data);
@@ -43,6 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> signUp(LoginData data) async {
+    emit(LoadingState());
     await _userUsecases.signUp(data).then((value) {
       emit(AuthorizedState(user: value));
       _loginDataUsecases.saveLoginData(data);
@@ -58,6 +60,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(UserIsExistsState());
     } else if (e is ServerErrorException) {
       emit(ErrorState(message: e.message));
+    } else if (e is ParameterNotFoundException) {
+      emit(ErrorState(message: e.errors.join('\n')));
     } else {
       emit(ErrorState(message: e.toString()));
     }

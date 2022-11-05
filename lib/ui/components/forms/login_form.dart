@@ -1,37 +1,45 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../logic/models/login_data.dart';
 import '../../../logic/utils/validator.dart';
+import '../../blocs/auth_cubit/auth_cubit.dart';
 import '../form_text_field.dart';
 import 'form_wrapper.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  const LoginForm({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+  });
 
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
 
   final formKey = GlobalKey<FormState>();
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
-    super.dispose();
-  }
-
   void submit() {
     final formIsValid = formKey.currentState?.validate();
-    if (formIsValid ?? false) {}
+    if (formIsValid ?? false) {
+      unawaited(
+        BlocProvider.of<AuthCubit>(context).login(
+          LoginData(
+            email: widget.emailController.text,
+            password: widget.passwordController.text,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -42,17 +50,19 @@ class _LoginFormState extends State<LoginForm> {
         FormTextField(
           label: 'Email',
           validator: validateEmailField,
-          controller: emailController,
+          controller: widget.emailController,
           focusNode: emailFocusNode,
           nextFocusNode: passwordFocusNode,
+          keyboardType: TextInputType.emailAddress,
         ),
         FormTextField(
           label: 'Пароль',
           obscureText: true,
-          controller: passwordController,
+          controller: widget.passwordController,
           validator: validatePasswordField,
           focusNode: passwordFocusNode,
           onFieldSubmitted: (_) => submit(),
+          keyboardType: TextInputType.visiblePassword,
         ),
       ],
       onSubmit: submit,

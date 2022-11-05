@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../../api_settings.dart';
 import '../models/login_data.dart';
 import '../models/user.dart';
+import '../utils/json_utils.dart';
 import '../utils/response_code_handler.dart';
 import '../utils/uri_utils.dart';
 
@@ -15,12 +17,16 @@ class UserRemoteDatasource {
   }) : _clien = clien;
 
   Future<User> login(LoginData data) async {
+    final uri = getAuthUri();
+    final body = jsonEncode(data.toMap());
+
     final response = await _clien.post(
-      getAuthUri(),
-      body: data.toJson(),
+      uri,
+      body: body,
+      headers: defaultRequestHeader,
     );
 
-    final responseBody = json.decode(response.body);
+    final responseBody = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
       return User.fromJson(responseBody);
@@ -31,7 +37,7 @@ class UserRemoteDatasource {
   Future<User> signUp(LoginData data) async {
     final response = await _clien.post(
       getRegistrationUri(),
-      body: data.toJson(),
+      body: data.toMap(),
     );
 
     final responseBody = json.decode(response.body);

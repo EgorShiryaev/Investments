@@ -28,3 +28,5 @@ class ErrorState extends AuthState {
 
   ErrorState({required this.message});
 }
+
+class LoadingState extends AuthState {}

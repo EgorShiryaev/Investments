@@ -10,6 +10,8 @@ class AppTheme {
   static const _onTertiaryColor = Color(0xFFFFFFFF);
   static const _errorContainerColor = Color(0xFFFF0000);
 
+  static const double _elevation = 10;
+
   final _colorScheme = const ColorScheme.light(
     background: _backgroundColor,
     onBackground: _onBackgroundColor,
@@ -24,14 +26,19 @@ class AppTheme {
     onErrorContainer: _errorContainerColor,
   );
 
-  final _textTheme = const TextTheme(
+  static const _textTheme = TextTheme(
     // displayLarge, displayMedium, displaySmall
     // headlineLarge, headlineMedium, headlineSmall
     // titleLarge, titleMedium, titleSmall
     // bodyLarge, bodyMedium, bodySmall
-    // labelLarge, labelMedium, labelSmall
+    // labelLarge, labelSmall, labelSmall
     headlineMedium: TextStyle(
       fontSize: 32,
+      fontWeight: FontWeight.bold,
+      color: _primaryColor,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
       fontWeight: FontWeight.bold,
       color: _primaryColor,
     ),
@@ -40,12 +47,22 @@ class AppTheme {
       fontWeight: FontWeight.w400,
       color: _backgroundColor,
     ),
+    bodySmall: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: _primaryColor,
+    ),
     labelLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.bold,
       color: _secondaryColor,
     ),
     labelMedium: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.normal,
+      color: _primaryColor,
+    ),
+    labelSmall: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.bold,
       color: _secondaryColor,
@@ -86,10 +103,14 @@ class AppTheme {
   final _textButtonTheme = TextButtonThemeData(
     style: ButtonStyle(
       padding: MaterialStateProperty.all(EdgeInsets.zero),
-      overlayColor: MaterialStateProperty.all(
-        _tertiaryColor.withOpacity(0.1),
-      ),
     ),
+  );
+
+  final _dialogTheme = DialogTheme(
+    backgroundColor: _backgroundColor,
+    elevation: _elevation,
+    titleTextStyle: _textTheme.headlineSmall,
+    contentTextStyle: _textTheme.labelMedium,
   );
 
   ThemeData get light {
@@ -102,6 +123,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: _elevatedButtonTheme,
       textButtonTheme: _textButtonTheme,
+      dialogTheme: _dialogTheme,
     );
   }
 }

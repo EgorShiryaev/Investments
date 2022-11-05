@@ -1,7 +1,7 @@
 class ParameterNotFoundException implements Exception {
-  final dynamic message;
+  final List<String> errors;
 
-  ParameterNotFoundException({this.message});
+  ParameterNotFoundException({required this.errors});
 }
 
 class ItemIsExistsException implements Exception {}

@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../logic/models/login_data.dart';
 import '../../../logic/utils/validator.dart';
 
+import '../../blocs/auth_cubit/auth_cubit.dart';
 import '../form_text_field.dart';
 import 'form_wrapper.dart';
 
@@ -38,9 +43,18 @@ class RegistrationFormState extends State<RegistrationForm> {
     super.dispose();
   }
 
-  void submit() {
+  void submit(BuildContext context) {
     final formIsValid = formKey.currentState?.validate();
-    if (formIsValid ?? false) {}
+    if (formIsValid ?? false) {
+      unawaited(
+        BlocProvider.of<AuthCubit>(context).signUp(
+          LoginData(
+            email: emailController.text,
+            password: passwordController.text,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -54,6 +68,7 @@ class RegistrationFormState extends State<RegistrationForm> {
           controller: fullNameController,
           focusNode: fullnameFocusNode,
           nextFocusNode: emailFocusNode,
+          keyboardType: TextInputType.name,
         ),
         FormTextField(
           label: 'Email',
@@ -61,6 +76,7 @@ class RegistrationFormState extends State<RegistrationForm> {
           validator: validateEmailField,
           focusNode: emailFocusNode,
           nextFocusNode: passwordFocusNode,
+          keyboardType: TextInputType.emailAddress,
         ),
         FormTextField(
           label: 'Пароль',
@@ -69,6 +85,7 @@ class RegistrationFormState extends State<RegistrationForm> {
           validator: validatePasswordField,
           focusNode: passwordFocusNode,
           nextFocusNode: confirmPasswordFocusNode,
+          keyboardType: TextInputType.visiblePassword,
         ),
         FormTextField(
           label: 'Подтвердите пароль',
@@ -81,10 +98,11 @@ class RegistrationFormState extends State<RegistrationForm> {
           },
           controller: confirmPasswordController,
           focusNode: confirmPasswordFocusNode,
-          onFieldSubmitted: (_) => submit(),
+          onFieldSubmitted: (_) => submit(context),
+          keyboardType: TextInputType.visiblePassword,
         ),
       ],
-      onSubmit: submit,
+      onSubmit: () => submit(context),
     );
   }
 }

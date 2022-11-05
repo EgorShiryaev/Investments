@@ -7,7 +7,7 @@ class LoginData {
     required this.password,
   });
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'email': email,
       'password': password,

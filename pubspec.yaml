@@ -17,6 +17,8 @@ dependencies:
   hive: ^2.2.3
   flutter_secure_storage: ^6.0.0
   http: ^0.13.5
+  get_it: ^7.2.0
+  flutter_native_splash: ^2.2.13
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +37,10 @@ flutter_icons:
   android: "app_icon"
   ios: true
   image_path: "assets/app_icon.png"
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/app_icon.png
 
   # fonts:
   #   - family: Schyler

@@ -6,6 +6,14 @@ import '../../components/link.dart';
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
 
+  static MaterialPageRoute get route {
+    return MaterialPageRoute(
+      builder: (context) {
+        return const RegistrationPage();
+      },
+    );
+  }
+
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
 }
@@ -40,7 +48,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       children: [
                         Text(
                           'У вас уже есть аккаунт?',
-                          style: Theme.of(context).textTheme.labelMedium,
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                         Link(
                           text: 'Войти в аккаунт',

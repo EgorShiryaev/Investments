@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Link extends StatelessWidget {
+class ModalAction extends StatelessWidget {
   final String text;
-  final Function() onPress;
-  const Link({
+  final void Function() onPress;
+
+  const ModalAction({
     super.key,
     required this.text,
     required this.onPress,
@@ -12,12 +13,10 @@ class Link extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPress,
       style: TextButton.styleFrom(
-        foregroundColor: Theme.of(context).colorScheme.tertiary,
-        textStyle: Theme.of(context).textTheme.labelSmall,
-        padding: EdgeInsets.zero,
+        textStyle: Theme.of(context).textTheme.labelLarge,
       ),
+      onPressed: onPress,
       child: Text(text),
     );
   }
