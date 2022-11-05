@@ -35,9 +35,13 @@ class UserRemoteDatasource {
   }
 
   Future<User> signUp(LoginData data) async {
+    final uri = getRegistrationUri();
+    final body = jsonEncode(data.toMap());
+
     final response = await _clien.post(
-      getRegistrationUri(),
-      body: data.toMap(),
+      uri,
+      body: body,
+      headers: defaultRequestHeader,
     );
 
     final responseBody = json.decode(response.body);

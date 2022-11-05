@@ -1,16 +1,16 @@
 class User {
   final String uuid;
-  final String fullname;
+  // final String fullname;
 
   User({
     required this.uuid,
-    required this.fullname,
+    // required this.fullname,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      uuid: json['uuid'],
-      fullname: json['fullname'],
+      uuid: json['userUuid'],
+      // fullname: json['fullname'],
     );
   }
 }

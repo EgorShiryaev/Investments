@@ -10,19 +10,25 @@ import '../form_text_field.dart';
 import 'form_wrapper.dart';
 
 class RegistrationForm extends StatefulWidget {
-  const RegistrationForm({super.key});
+  final TextEditingController fullNameController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final TextEditingController confirmPasswordController;
+
+  const RegistrationForm({
+    super.key,
+    required this.fullNameController,
+    required this.emailController,
+    required this.passwordController,
+    required this.confirmPasswordController,
+  });
 
   @override
   State<RegistrationForm> createState() => RegistrationFormState();
 }
 
 class RegistrationFormState extends State<RegistrationForm> {
-  final fullNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
-  final fullnameFocusNode = FocusNode();
+  final fullNameFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   final confirmPasswordFocusNode = FocusNode();
@@ -31,26 +37,21 @@ class RegistrationFormState extends State<RegistrationForm> {
 
   @override
   void dispose() {
-    fullNameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-
-    fullnameFocusNode.dispose();
+    fullNameFocusNode.dispose();
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
     confirmPasswordFocusNode.dispose();
     super.dispose();
   }
 
-  void submit(BuildContext context) {
+  void submit() {
     final formIsValid = formKey.currentState?.validate();
     if (formIsValid ?? false) {
       unawaited(
         BlocProvider.of<AuthCubit>(context).signUp(
           LoginData(
-            email: emailController.text,
-            password: passwordController.text,
+            email: widget.emailController.text,
+            password: widget.passwordController.text,
           ),
         ),
       );
@@ -65,14 +66,14 @@ class RegistrationFormState extends State<RegistrationForm> {
         FormTextField(
           label: 'Имя',
           validator: validateFullNameField,
-          controller: fullNameController,
-          focusNode: fullnameFocusNode,
+          controller: widget.fullNameController,
+          focusNode: fullNameFocusNode,
           nextFocusNode: emailFocusNode,
           keyboardType: TextInputType.name,
         ),
         FormTextField(
           label: 'Email',
-          controller: emailController,
+          controller: widget.emailController,
           validator: validateEmailField,
           focusNode: emailFocusNode,
           nextFocusNode: passwordFocusNode,
@@ -81,7 +82,7 @@ class RegistrationFormState extends State<RegistrationForm> {
         FormTextField(
           label: 'Пароль',
           obscureText: true,
-          controller: passwordController,
+          controller: widget.passwordController,
           validator: validatePasswordField,
           focusNode: passwordFocusNode,
           nextFocusNode: confirmPasswordFocusNode,
@@ -93,16 +94,16 @@ class RegistrationFormState extends State<RegistrationForm> {
           validator: (value) {
             return validateConfirmPasswordfField(
               value,
-              passwordController.text,
+              widget.passwordController.text,
             );
           },
-          controller: confirmPasswordController,
+          controller: widget.confirmPasswordController,
           focusNode: confirmPasswordFocusNode,
-          onFieldSubmitted: (_) => submit(context),
+          onFieldSubmitted: (_) => submit(),
           keyboardType: TextInputType.visiblePassword,
         ),
       ],
-      onSubmit: () => submit(context),
+      onSubmit: submit,
     );
   }
 }

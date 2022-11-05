@@ -12,6 +12,14 @@ import 'registration_page.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  static MaterialPageRoute get route {
+    return MaterialPageRoute(
+      builder: (context) {
+        return const LoginPage();
+      },
+    );
+  }
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }

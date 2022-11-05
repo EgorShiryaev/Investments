@@ -51,6 +51,12 @@ class AuthCubit extends Cubit<AuthState> {
     }).catchError(_handleErrors);
   }
 
+  Future<void> logout() async {
+    emit(LoadingState());
+    await _loginDataUsecases.deleteSavedLoginData();
+    emit(NotAuthorizedState());
+  }
+
   // ignore: prefer_void_to_null
   FutureOr<Null> _handleErrors(e) {
     log(e.toString());
