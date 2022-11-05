@@ -6,7 +6,7 @@ import 'dependency_injection.dart';
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await setupDependency();
+  setupDependency();
 
   runApp(const App());
 }

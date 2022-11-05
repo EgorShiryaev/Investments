@@ -1,21 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../logic/models/login_data.dart';
 import '../../../logic/utils/validator.dart';
 
-import '../../blocs/auth_cubit/auth_cubit.dart';
+import '../../blocs/sign_up_cubit/sign_up_cubit.dart';
 import '../form_text_field.dart';
 import 'form_wrapper.dart';
 
-class RegistrationForm extends StatefulWidget {
+class SignUpForm extends StatefulWidget {
   final TextEditingController fullNameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
 
-  const RegistrationForm({
+  const SignUpForm({
     super.key,
     required this.fullNameController,
     required this.emailController,
@@ -24,10 +21,10 @@ class RegistrationForm extends StatefulWidget {
   });
 
   @override
-  State<RegistrationForm> createState() => RegistrationFormState();
+  State<SignUpForm> createState() => SignUpFormState();
 }
 
-class RegistrationFormState extends State<RegistrationForm> {
+class SignUpFormState extends State<SignUpForm> {
   final fullNameFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
@@ -47,13 +44,9 @@ class RegistrationFormState extends State<RegistrationForm> {
   void submit() {
     final formIsValid = formKey.currentState?.validate();
     if (formIsValid ?? false) {
-      unawaited(
-        BlocProvider.of<AuthCubit>(context).signUp(
-          LoginData(
-            email: widget.emailController.text,
-            password: widget.passwordController.text,
-          ),
-        ),
+      BlocProvider.of<SignUpCubit>(context).signUp(
+        email: widget.emailController.text,
+        password: widget.passwordController.text,
       );
     }
   }

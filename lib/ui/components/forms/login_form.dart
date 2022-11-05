@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/models/login_data.dart';
 import '../../../logic/utils/validator.dart';
-import '../../blocs/auth_cubit/auth_cubit.dart';
+import '../../blocs/login_cubit/login_cubit.dart';
 import '../form_text_field.dart';
 import 'form_wrapper.dart';
 
@@ -31,13 +28,9 @@ class _LoginFormState extends State<LoginForm> {
   void submit() {
     final formIsValid = formKey.currentState?.validate();
     if (formIsValid ?? false) {
-      unawaited(
-        BlocProvider.of<AuthCubit>(context).login(
-          LoginData(
-            email: widget.emailController.text,
-            password: widget.passwordController.text,
-          ),
-        ),
+      BlocProvider.of<LoginCubit>(context).login(
+        email: widget.emailController.text,
+        password: widget.passwordController.text,
       );
     }
   }

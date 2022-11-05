@@ -9,10 +9,10 @@ import '../utils/json_utils.dart';
 import '../utils/response_code_handler.dart';
 import '../utils/uri_utils.dart';
 
-class UserRemoteDatasource {
+class AuthRemoteDatasource {
   final http.Client _clien;
 
-  UserRemoteDatasource({
+  AuthRemoteDatasource({
     required http.Client clien,
   }) : _clien = clien;
 

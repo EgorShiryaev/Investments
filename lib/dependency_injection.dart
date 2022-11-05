@@ -6,30 +6,53 @@ import 'package:http/http.dart' as http;
 
 import 'logic/datasources/secure_local_datasource.dart';
 import 'logic/datasources/user_remote_datasource.dart';
-import 'logic/repositories/login_data_repository.dart';
-import 'logic/repositories/user_repository.dart';
-import 'logic/usecases/login_data_usecases.dart';
-import 'logic/usecases/user_usecases.dart';
-import 'ui/blocs/auth_cubit/auth_cubit.dart';
+import 'logic/repositories/auth_repository.dart';
+import 'logic/repositories/previous_login_data_repository.dart';
+import 'logic/usecases/auth_usecases.dart';
+import 'logic/usecases/previous_login_data_usecases.dart';
+import 'ui/blocs/auth_navigation_cubit/auth_navigation_cubit.dart';
+import 'ui/blocs/login_cubit/login_cubit.dart';
+import 'ui/blocs/sign_up_cubit/sign_up_cubit.dart';
+import 'ui/blocs/user_auth_cubit/user_auth_cubit.dart';
 
 final getIt = GetIt.instance;
 
-Future<void> setupDependency() async {
+void setupDependency() {
   final httpClient = http.Client();
-  await _setupAuthModuleDependency(httpClient);
+  _setupAuthModuleDependency(httpClient);
+  _setupUserAuthModuleCubit();
 }
 
-Future<void> _setupAuthModuleDependency(http.Client httpClient) async {
-  getIt.registerFactory(
-    () => AuthCubit(loginDataUsecases: getIt(), userUsecases: getIt()),
+void _setupUserAuthModuleCubit() {}
+
+void _setupAuthModuleDependency(http.Client httpClient) {
+  getIt.registerFactory<UserAuthCubit>(
+    () => UserAuthCubit(
+      previousLoginDataUsecases: getIt(),
+      authUsecases: getIt(),
+    ),
+  );
+  getIt.registerFactory<LoginCubit>(
+    () => LoginCubit(authUsecases: getIt()),
+  );
+  getIt.registerFactory<SignUpCubit>(
+    () => SignUpCubit(authUsecases: getIt()),
+  );
+  // ignore: unnecessary_lambdas
+  getIt.registerFactory<AuthNavigationCubit>(() => AuthNavigationCubit());
+
+  getIt.registerLazySingleton<PreviousLoginDataUsecases>(
+    () => PreviousLoginDataUsecases(previousLoginDataRepository: getIt()),
+  );
+  getIt.registerLazySingleton<AuthUsecases>(
+    () => AuthUsecases(authRepository: getIt()),
   );
 
-  getIt.registerLazySingleton<LoginDataUsecases>(
-    () => LoginDataUsecases(repository: getIt()),
+  getIt.registerLazySingleton<PreviousLoginDataRepository>(
+    () => PreviousLoginDataRepository(secureLocalDatasource: getIt()),
   );
-
-  getIt.registerLazySingleton<LoginDataRepository>(
-    () => LoginDataRepository(localDatasource: getIt()),
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepository(authRemoteDatasource: getIt()),
   );
 
   getIt.registerLazySingleton<SecureLocalDatasource>(
@@ -37,16 +60,7 @@ Future<void> _setupAuthModuleDependency(http.Client httpClient) async {
       secureStorage: FlutterSecureStorage(),
     ),
   );
-
-  getIt.registerLazySingleton<UserUsecases>(
-    () => UserUsecases(repository: getIt()),
-  );
-
-  getIt.registerLazySingleton<UserRepository>(
-    () => UserRepository(remoteDatasource: getIt()),
-  );
-
-  getIt.registerLazySingleton<UserRemoteDatasource>(
-    () => UserRemoteDatasource(clien: httpClient),
+  getIt.registerLazySingleton<AuthRemoteDatasource>(
+    () => AuthRemoteDatasource(clien: httpClient),
   );
 }

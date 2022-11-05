@@ -30,7 +30,7 @@ class SecureLocalDatasource {
     await _secureStorage.delete(key: _emailKey);
   }
 
-  Future<void> deleteSavedpassword() async {
+  Future<void> deleteSavedPassword() async {
     await _secureStorage.delete(key: _passworkKey);
   }
 }

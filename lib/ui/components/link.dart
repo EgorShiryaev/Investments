@@ -11,14 +11,21 @@ class Link extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPress,
-      style: TextButton.styleFrom(
-        foregroundColor: Theme.of(context).colorScheme.tertiary,
-        textStyle: Theme.of(context).textTheme.labelSmall,
-        padding: EdgeInsets.zero,
+    final tertiaryColor = Theme.of(context).colorScheme.tertiary;
+    return InkWell(
+      onTap: onPress,
+      borderRadius: BorderRadius.circular(4),
+      overlayColor: MaterialStateProperty.all(tertiaryColor.withOpacity(0.2)),
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .labelSmall
+              ?.apply(color: tertiaryColor),
+        ),
       ),
-      child: Text(text),
     );
   }
 }

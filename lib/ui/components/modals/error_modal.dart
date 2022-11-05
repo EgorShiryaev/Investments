@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'modal_action.dart';
@@ -8,6 +10,15 @@ class ErrorModal extends StatefulWidget {
     super.key,
     required this.message,
   });
+
+  static void show(BuildContext context, {required String message}) {
+    unawaited(
+      showDialog(
+        context: context,
+        builder: (context) => ErrorModal(message: message),
+      ),
+    );
+  }
 
   @override
   State<ErrorModal> createState() => _ErrorModalState();
