@@ -86,7 +86,6 @@ class _SignUpViewState extends State<SignUpView> {
                       text: 'Войти в аккаунт',
                       onPress: navigateToLogin,
                     ),
-                    const SizedBox(height: 20),
                   ],
                 ),
               ),

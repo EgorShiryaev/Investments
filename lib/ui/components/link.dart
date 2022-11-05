@@ -12,18 +12,21 @@ class Link extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tertiaryColor = Theme.of(context).colorScheme.tertiary;
-    return InkWell(
-      onTap: onPress,
-      borderRadius: BorderRadius.circular(4),
-      overlayColor: MaterialStateProperty.all(tertiaryColor.withOpacity(0.2)),
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        child: Text(
-          text,
-          style: Theme.of(context)
-              .textTheme
-              .labelSmall
-              ?.apply(color: tertiaryColor),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: InkWell(
+        onTap: onPress,
+        borderRadius: BorderRadius.circular(4),
+        overlayColor: MaterialStateProperty.all(tertiaryColor.withOpacity(0.2)),
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          child: Text(
+            text,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.apply(color: tertiaryColor),
+          ),
         ),
       ),
     );
