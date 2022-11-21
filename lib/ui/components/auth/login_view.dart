@@ -50,11 +50,11 @@ class LoginView extends StatelessWidget {
             children: [
               Text(
                 'Войдите',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
               Text(
                 'для того чтобы продолжить',
-                style: Theme.of(context).textTheme.labelLarge,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 20),
               LoginForm(
@@ -68,7 +68,7 @@ class LoginView extends StatelessWidget {
                   children: [
                     Text(
                       'У вас нет аккаунта?',
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Link(
                       text: 'Зарегистрироваться',

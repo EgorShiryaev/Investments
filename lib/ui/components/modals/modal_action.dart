@@ -14,7 +14,7 @@ class ModalAction extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        textStyle: Theme.of(context).textTheme.labelLarge,
+        textStyle: Theme.of(context).textTheme.bodyMedium,
       ),
       onPressed: onPress,
       child: Text(text),
