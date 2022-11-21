@@ -88,9 +88,16 @@ class AppTheme {
         padding: MaterialStateProperty.all(
           const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         ),
-        elevation: MaterialStateProperty.all(10),
+        elevation: MaterialStateProperty.all(_elevation),
         shape: MaterialStateProperty.all(
           const StadiumBorder(side: BorderSide.none),
+        ),
+        textStyle: MaterialStateProperty.all(
+          _defaultTextStyle.copyWith(
+            color: _onTertiaryColor,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
