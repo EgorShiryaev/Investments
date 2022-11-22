@@ -24,25 +24,25 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: [
-        FavoritesPage(),
-        SearchPage(),
-        ProfilePage(),
+        const FavoritesPage(),
+        const SearchPage(),
+        const ProfilePage(),
       ].elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         onTap: changeSelectedIndex,
         currentIndex: selectedIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.star_outlined),
-            label: "Избранные",
+            label: 'Избранные',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: "Поиск",
+            label: 'Поиск',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: "Профиль",
+            label: 'Профиль',
           ),
         ],
       ),
