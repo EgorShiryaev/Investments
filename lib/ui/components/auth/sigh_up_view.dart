@@ -64,7 +64,7 @@ class _SignUpViewState extends State<SignUpView> {
             children: [
               Text(
                 'Регистрация',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
               const SizedBox(height: 20),
               SignUpForm(
@@ -80,7 +80,7 @@ class _SignUpViewState extends State<SignUpView> {
                   children: [
                     Text(
                       'У вас уже есть аккаунт?',
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Link(
                       text: 'Войти в аккаунт',

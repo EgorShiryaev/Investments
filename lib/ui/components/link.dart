@@ -11,7 +11,8 @@ class Link extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tertiaryColor = Theme.of(context).colorScheme.tertiary;
+    final theme = Theme.of(context);
+    final tertiaryColor = theme.colorScheme.tertiary;
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: InkWell(
@@ -22,10 +23,7 @@ class Link extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           child: Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .labelSmall
-                ?.apply(color: tertiaryColor),
+            style: theme.textTheme.bodyMedium?.apply(color: tertiaryColor),
           ),
         ),
       ),

@@ -18,7 +18,7 @@ class FormTextField extends StatefulWidget {
     required this.controller,
     required this.focusNode,
     this.nextFocusNode,
-    this.onFieldSubmitted, 
+    this.onFieldSubmitted,
     this.keyboardType,
   });
 
@@ -70,14 +70,14 @@ class _FormTextFieldState extends State<FormTextField> {
             keyboardType: widget.keyboardType,
             decoration: InputDecoration(
               label: Text(widget.label),
-              suffixIcon: widget.obscureText != true
-                  ? null
-                  : IconButton(
+              suffixIcon: widget.obscureText ?? false
+                  ? IconButton(
                       icon: Icon(
                         isHidden ? Icons.visibility : Icons.visibility_off,
                       ),
                       onPressed: changeIsVisible,
-                    ),
+                    )
+                  : null,
             ),
             onEditingComplete: focusNextField,
             onFieldSubmitted: widget.onFieldSubmitted,

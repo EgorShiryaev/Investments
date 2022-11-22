@@ -6,6 +6,7 @@ import '../../api_settings.dart';
 import '../models/login_data.dart';
 import '../models/user.dart';
 import '../utils/json_utils.dart';
+import '../utils/log_utils.dart';
 import '../utils/response_code_handler.dart';
 import '../utils/uri_utils.dart';
 
@@ -19,6 +20,8 @@ class AuthRemoteDatasource {
   Future<User> login(LoginData data) async {
     final uri = getAuthUri();
     final body = jsonEncode(data.toMap());
+
+    logRequest(uri, body);
 
     final response = await _clien.post(
       uri,
@@ -37,6 +40,8 @@ class AuthRemoteDatasource {
   Future<User> signUp(LoginData data) async {
     final uri = getRegistrationUri();
     final body = jsonEncode(data.toMap());
+
+    logRequest(uri, body);
 
     final response = await _clien.post(
       uri,
