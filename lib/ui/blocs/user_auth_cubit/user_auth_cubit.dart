@@ -18,7 +18,7 @@ class UserAuthCubit extends Cubit<UserAuthState> {
     required AuthUsecases authUsecases,
   })  : _previousLoginDataUsecases = previousLoginDataUsecases,
         _authUsecases = authUsecases,
-        super(UnknownUserAuthState());
+        super(InitialUserAuthState());
 
   User? _user;
 

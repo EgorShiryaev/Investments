@@ -120,8 +120,25 @@ class AppTheme {
     );
   }
 
+  BottomNavigationBarThemeData get _bottomNavigationBarTheme {
+    const iconSize = 32.0;
+    const fontSize = 12.0;
+    return BottomNavigationBarThemeData(
+      selectedIconTheme: const IconThemeData(size: iconSize),
+      unselectedIconTheme: const IconThemeData(size: iconSize),
+      selectedItemColor: _onTertiaryColor,
+      unselectedItemColor: _onTertiaryColor.withOpacity(0.5),
+      backgroundColor: _tertiaryColor,
+      elevation: _elevation,
+      selectedLabelStyle: _defaultTextStyle.copyWith(fontSize: fontSize),
+      unselectedLabelStyle: _defaultTextStyle.copyWith(fontSize: fontSize),
+      type: BottomNavigationBarType.fixed,
+    );
+  }
+
   ThemeData get light {
     return ThemeData(
+      scaffoldBackgroundColor: _backgroundColor,
       textTheme: _textTheme,
       colorScheme: _colorScheme,
       inputDecorationTheme: _inputDecorationTheme,
@@ -131,6 +148,7 @@ class AppTheme {
       elevatedButtonTheme: _elevatedButtonTheme,
       textButtonTheme: _textButtonTheme,
       dialogTheme: _dialogTheme,
+      bottomNavigationBarTheme: _bottomNavigationBarTheme,
     );
   }
 }
