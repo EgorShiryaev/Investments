@@ -2,7 +2,7 @@ import '../../../logic/models/login_data.dart';
 
 abstract class UserAuthState {}
 
-class UnknownUserAuthState extends UserAuthState {}
+class InitialUserAuthState extends UserAuthState {}
 
 class UserIsAuth extends UserAuthState {}
 

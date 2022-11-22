@@ -1,67 +1,86 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../dependency_injection.dart';
 import '../../logic/models/login_data.dart';
-import '../blocs/user_auth_cubit/user_auth_cubit.dart';
-import '../blocs/user_auth_cubit/user_auth_state.dart';
-import '../pages/auth_page.dart';
+import '../blocs/auth_navigation_cubit/auth_navigation_cubit.dart';
+import '../blocs/auth_navigation_cubit/auth_navigation_state.dart';
+import '../blocs/login_cubit/login_cubit.dart';
+import '../blocs/sign_up_cubit/sign_up_cubit.dart';
+import '../pages/auth/login_page.dart';
+import '../pages/auth/sigh_up_page.dart';
 
 class AuthModule extends StatefulWidget {
-  const AuthModule({super.key});
+  final LoginData? previousLoginData;
+  const AuthModule({super.key, required this.previousLoginData});
 
   @override
   State<AuthModule> createState() => _AuthModuleState();
 }
 
 class _AuthModuleState extends State<AuthModule> {
-  bool splashScreenIsVisible = true;
+  final fullNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+  void modalNavigateToLogin() {
+    passwordController.text = '';
+  }
+
+  @override
+  void initState() {
+    if (widget.previousLoginData != null) {
+      emailController.text = widget.previousLoginData!.email;
+      passwordController.text = widget.previousLoginData!.password;
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UserAuthCubit>(
-      create: (context) {
-        final cubit = getIt<UserAuthCubit>();
-        unawaited(cubit.checkUserAuthState());
-        return cubit;
-      },
-      child: BlocBuilder<UserAuthCubit, UserAuthState>(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LoginCubit>(
+          create: (context) => getIt<LoginCubit>(),
+        ),
+        BlocProvider<SignUpCubit>(
+          create: (context) => getIt<SignUpCubit>(),
+        ),
+        BlocProvider<AuthNavigationCubit>(
+          create: (context) => getIt<AuthNavigationCubit>(),
+        )
+      ],
+      child: BlocBuilder<AuthNavigationCubit, AuthNavigationState>(
         builder: (context, state) {
-          if (state is! UnknownUserAuthState && splashScreenIsVisible) {
-            FlutterNativeSplash.remove();
-            splashScreenIsVisible = false;
-          }
-
-          if (state is UserIsAuth) {
-            final user = BlocProvider.of<UserAuthCubit>(context).user;
-            return Scaffold(
-              body: ColoredBox(
-                color: Colors.red,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(user!.uuid),
-                      ElevatedButton(
-                        onPressed: () {
-                          BlocProvider.of<UserAuthCubit>(context).logOut();
-                        },
-                        child: const Text('Выйти'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          if (state is LoginNavigationState) {
+            return LoginPage(
+              emailController: emailController,
+              passwordController: passwordController,
+            );
+          } else if (state is SignUpNavigationState) {
+            return SignUpPage(
+              emailController: emailController,
+              passwordController: passwordController,
+              confirmPasswordController: confirmPasswordController,
+              fullNameController: fullNameController,
             );
           }
-          LoginData? loginData;
-          if (state is AutologinFailureAuthState) {
-            loginData = state.loginData;
-          }
-          return AuthPage(previousLoginData: loginData);
+          return const ColoredBox(
+            color: Colors.red,
+            child: Center(
+              child: Text('Unknowed state'),
+            ),
+          );
         },
       ),
     );
