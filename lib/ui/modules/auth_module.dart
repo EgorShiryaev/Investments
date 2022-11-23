@@ -24,6 +24,8 @@ class _AuthModuleState extends State<AuthModule> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
+  bool previousLoginDataIsSetted = false;
+
   void modalNavigateToLogin() {
     passwordController.text = '';
   }
@@ -46,8 +48,17 @@ class _AuthModuleState extends State<AuthModule> {
     super.dispose();
   }
 
+  void setPreviousLoginData() {
+    if (widget.previousLoginData != null && !previousLoginDataIsSetted) {
+      emailController.text = widget.previousLoginData!.email;
+      passwordController.text = widget.previousLoginData!.password;
+      previousLoginDataIsSetted = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    setPreviousLoginData();
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginCubit>(

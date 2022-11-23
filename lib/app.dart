@@ -9,6 +9,7 @@ import 'dependency_injection.dart';
 import 'logic/models/login_data.dart';
 import 'ui/blocs/user_auth_cubit/user_auth_cubit.dart';
 import 'ui/blocs/user_auth_cubit/user_auth_state.dart';
+import 'ui/components/modals/error_modal.dart';
 import 'ui/modules/auth_module.dart';
 import 'ui/pages/home_tab_page.dart';
 
@@ -30,6 +31,12 @@ class App extends StatelessWidget {
           listener: (context, state) {
             if (state is! InitialUserAuthState) {
               FlutterNativeSplash.remove();
+            }
+            if (state is AutologinFailureAuthState) {
+              ErrorModal.show(
+                context,
+                message: 'Во время авторизации произошла ошибка',
+              );
             }
           },
           child: BlocBuilder<UserAuthCubit, UserAuthState>(
