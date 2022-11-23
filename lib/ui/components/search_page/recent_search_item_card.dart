@@ -5,13 +5,11 @@ import '../../../app_theme.dart';
 class RecentSearchItemCard extends StatelessWidget {
   final String request;
   final void Function() onPress;
-  final void Function() delete;
 
   const RecentSearchItemCard({
     super.key,
     required this.request,
     required this.onPress,
-    required this.delete,
   });
 
   @override
@@ -31,10 +29,6 @@ class RecentSearchItemCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              IconButton(
-                onPressed: delete,
-                icon: const Icon(Icons.delete_forever),
-              )
             ],
           ),
         ),
