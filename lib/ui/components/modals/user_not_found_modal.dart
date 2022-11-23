@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/auth_navigation_cubit/auth_navigation_cubit.dart';
+import '../../blocs/auth/auth_navigation_cubit/auth_navigation_cubit.dart';
 import 'modal_action.dart';
 
 class UserNotFoundModal extends StatefulWidget {

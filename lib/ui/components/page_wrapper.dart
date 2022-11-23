@@ -17,7 +17,6 @@ class PageWrapper extends StatelessWidget {
     this.pageTitleAction,
   });
 
-  static const separatorHeight = 20.0;
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +35,13 @@ class PageWrapper extends StatelessWidget {
                       subtitle: pageSubtitle,
                       titleAction: pageTitleAction,
                     ),
-                    ...List.generate(2 * children.length, (index) {
-                      if (index.isEven) {
-                        return const Separator();
-                      }
-                      final childrenIndex = ((index - 1) / 2).ceil();
-                      return children[childrenIndex];
-                    })
+                    if (children.isNotEmpty)
+                      ...List.generate(children.length * 2, (index) {
+                        if (index.isEven) {
+                          return const Separator();
+                        }
+                        return children[((index - 1) / 2).ceil()];
+                      }),
                   ],
                 ),
               ),

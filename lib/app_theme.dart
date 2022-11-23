@@ -10,8 +10,10 @@ class AppTheme {
   static const _tertiaryColor = Color(0xFF0B6CFF); // ~1%
   static const _onTertiaryColor = Color(0xFFFFFFFF);
   static const _errorContainerColor = Color(0xFFFF0000);
+  static const _onErrorContainerColor = Color(0xFFFFFFFF);
+  static const _surfaceColor = Color(0xFFFFFFFF);
 
-  static const double _elevation = 10;
+  static const _elevation = 10.0;
 
   ColorScheme get _colorScheme {
     return const ColorScheme.light(
@@ -24,8 +26,9 @@ class AppTheme {
       onTertiary: _onTertiaryColor,
       errorContainer: _errorContainerColor,
       error: _errorContainerColor,
-      onError: _errorContainerColor,
-      onErrorContainer: _errorContainerColor,
+      onError: _onErrorContainerColor,
+      onErrorContainer: _onErrorContainerColor,
+      surface: _surfaceColor,
     );
   }
 
@@ -136,6 +139,28 @@ class AppTheme {
     );
   }
 
+  static const cardContentPadding =
+      EdgeInsets.symmetric(vertical: 10, horizontal: 15);
+
+  CardTheme get _cardTheme {
+    return CardTheme(
+      clipBehavior: Clip.hardEdge,
+      color: _surfaceColor,
+      elevation: _elevation,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+    );
+  }
+
+  IconThemeData get _iconTheme {
+    return const IconThemeData(
+      color: _primaryColor,
+      size: 24,
+    );
+  }
+
   ThemeData get light {
     return ThemeData(
       scaffoldBackgroundColor: _backgroundColor,
@@ -149,6 +174,8 @@ class AppTheme {
       textButtonTheme: _textButtonTheme,
       dialogTheme: _dialogTheme,
       bottomNavigationBarTheme: _bottomNavigationBarTheme,
+      cardTheme: _cardTheme,
+      iconTheme: _iconTheme,
     );
   }
 }

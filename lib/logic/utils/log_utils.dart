@@ -1,5 +1,9 @@
 import 'dart:developer';
 
-void logRequest(Uri uri, String body) {
+void logPostRequest(Uri uri, String body) {
   log('$uri: $body');
+}
+
+void logGetRequest(Uri uri) {
+  log('$uri');
 }

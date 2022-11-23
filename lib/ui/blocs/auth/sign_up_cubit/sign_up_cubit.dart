@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/exceptions/api_exceptions.dart';
-import '../../../logic/models/login_data.dart';
-import '../../../logic/usecases/auth_usecases.dart';
-import '../../../logic/utils/crypto_utils.dart';
+import '../../../../logic/exceptions/api_exceptions.dart';
+import '../../../../logic/models/login_data.dart';
+import '../../../../logic/usecases/auth_usecases.dart';
+import '../../../../logic/utils/crypto_utils.dart';
 import 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {

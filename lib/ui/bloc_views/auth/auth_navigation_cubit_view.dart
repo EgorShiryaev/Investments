@@ -1,40 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../dependency_injection.dart';
-import '../../logic/models/login_data.dart';
-import '../blocs/auth_navigation_cubit/auth_navigation_cubit.dart';
-import '../blocs/auth_navigation_cubit/auth_navigation_state.dart';
-import '../blocs/login_cubit/login_cubit.dart';
-import '../blocs/sign_up_cubit/sign_up_cubit.dart';
-import '../pages/auth/login_page.dart';
-import '../pages/auth/sigh_up_page.dart';
+import '../../../dependency_injection.dart';
+import '../../../logic/models/login_data.dart';
+import '../../blocs/auth/auth_navigation_cubit/auth_navigation_cubit.dart';
+import '../../blocs/auth/auth_navigation_cubit/auth_navigation_state.dart';
+import '../../blocs/auth/login_cubit/login_cubit.dart';
+import '../../blocs/auth/sign_up_cubit/sign_up_cubit.dart';
+import '../../components/unknowed_bloc_state_view.dart';
+import 'login_cubit_view.dart';
+import 'sign_up_cubit_view.dart';
 
-class AuthModule extends StatefulWidget {
+class AuthNavigationCubitView extends StatefulWidget {
   final LoginData? previousLoginData;
-  const AuthModule({super.key, required this.previousLoginData});
+  const AuthNavigationCubitView({super.key, required this.previousLoginData});
 
   @override
-  State<AuthModule> createState() => _AuthModuleState();
+  State<AuthNavigationCubitView> createState() =>
+      _AuthNavigationCubitViewState();
 }
 
-class _AuthModuleState extends State<AuthModule> {
+class _AuthNavigationCubitViewState extends State<AuthNavigationCubitView> {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
+  bool previousLoginDataIsSetted = false;
+
   void modalNavigateToLogin() {
     passwordController.text = '';
   }
 
-  @override
-  void initState() {
-    if (widget.previousLoginData != null) {
+  void setPreviousLoginData() {
+    if (widget.previousLoginData != null && !previousLoginDataIsSetted) {
       emailController.text = widget.previousLoginData!.email;
       passwordController.text = widget.previousLoginData!.password;
+      previousLoginDataIsSetted = true;
     }
-    super.initState();
   }
 
   @override
@@ -48,6 +51,7 @@ class _AuthModuleState extends State<AuthModule> {
 
   @override
   Widget build(BuildContext context) {
+    setPreviousLoginData();
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginCubit>(
@@ -58,29 +62,24 @@ class _AuthModuleState extends State<AuthModule> {
         ),
         BlocProvider<AuthNavigationCubit>(
           create: (context) => getIt<AuthNavigationCubit>(),
-        )
+        ),
       ],
       child: BlocBuilder<AuthNavigationCubit, AuthNavigationState>(
         builder: (context, state) {
           if (state is LoginNavigationState) {
-            return LoginPage(
+            return LoginCubitView(
               emailController: emailController,
               passwordController: passwordController,
             );
           } else if (state is SignUpNavigationState) {
-            return SignUpPage(
+            return SignUpCubitView(
               emailController: emailController,
               passwordController: passwordController,
               confirmPasswordController: confirmPasswordController,
               fullNameController: fullNameController,
             );
           }
-          return const ColoredBox(
-            color: Colors.red,
-            child: Center(
-              child: Text('Unknowed state'),
-            ),
-          );
+          return const Scaffold(body: UnknowedfBlocStateView());
         },
       ),
     );

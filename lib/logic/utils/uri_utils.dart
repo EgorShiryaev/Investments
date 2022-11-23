@@ -8,22 +8,20 @@ const _favoriteInstrumentsPath = '/favoriteInstruments';
 
 const _instrumentsPath = '/instruments';
 
-String generateUrl() {
-  return '$apiUrl:$apiPort';
-}
+const baseUrl = '$apiUrl:$apiPort';
 
 Uri getRegistrationUri() {
-  return Uri.http(generateUrl(), _registrationPath);
+  return Uri.http(baseUrl, _registrationPath);
 }
 
 Uri getAuthUri() {
-  return Uri.http(generateUrl(), _authPath);
+  return Uri.http(baseUrl, _authPath);
 }
 
 Uri getFavoriteInstrumentsUri(Map<String, dynamic>? queryParameters) {
-  return Uri.http(generateUrl(), _favoriteInstrumentsPath, queryParameters);
+  return Uri.http(baseUrl, _favoriteInstrumentsPath, queryParameters);
 }
 
 Uri getInstrumentsUri(Map<String, dynamic>? queryParameters) {
-  return Uri.http(generateUrl(), _instrumentsPath, queryParameters);
+  return Uri.http(baseUrl, _instrumentsPath, queryParameters);
 }

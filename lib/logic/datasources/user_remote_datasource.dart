@@ -21,7 +21,7 @@ class AuthRemoteDatasource {
     final uri = getAuthUri();
     final body = jsonEncode(data.toMap());
 
-    logRequest(uri, body);
+    logPostRequest(uri, body);
 
     final response = await _clien.post(
       uri,
@@ -41,7 +41,7 @@ class AuthRemoteDatasource {
     final uri = getRegistrationUri();
     final body = jsonEncode(data.toMap());
 
-    logRequest(uri, body);
+    logPostRequest(uri, body);
 
     final response = await _clien.post(
       uri,

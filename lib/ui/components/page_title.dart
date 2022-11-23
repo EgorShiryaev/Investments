@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'subtitle.dart';
+
 class PageTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
@@ -28,10 +30,9 @@ class PageTitle extends StatelessWidget {
           ],
         ),
         if (subtitle != null)
-          Text(
-            subtitle!,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
+          Subtitle(
+            text: subtitle!,
+          )
       ],
     );
   }
