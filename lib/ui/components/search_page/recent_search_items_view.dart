@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
+import '../../blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
 import '../dismissible_wrapper.dart';
 import '../separator.dart';
 import '../subtitle.dart';

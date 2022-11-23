@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
-import '../../blocs/recent_search_items_cubit/recent_search_items_state.dart';
+import '../../blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
+import '../../blocs/search/recent_search_items_cubit/recent_search_items_state.dart';
 import '../../components/loading_indicator.dart';
 import '../../components/modals/error_modal.dart';
 import '../../components/search_page/recent_search_items_view.dart';

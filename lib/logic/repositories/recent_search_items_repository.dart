@@ -29,11 +29,13 @@ class RecentSearchItemsRepository {
     if (_recentSearchItems.isEmpty) {
       await _loadRecentSearchItems();
     }
-    _recentSearchItems.add(searchText);
-    unawaited(_localDatasource.add(searchText));
+    if (!_recentSearchItems.contains(searchText)) {
+      _recentSearchItems.add(searchText);
+      unawaited(_localDatasource.add(searchText));
+    }
   }
 
-   Future<void> deleteRecentSearch(int index) async {
+  Future<void> deleteRecentSearch(int index) async {
     if (_recentSearchItems.isEmpty) {
       await _loadRecentSearchItems();
     }

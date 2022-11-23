@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/models/login_data.dart';
-import '../../blocs/login_cubit/login_cubit.dart';
-import '../../blocs/login_cubit/login_state.dart';
-import '../../blocs/user_auth_cubit/user_auth_cubit.dart';
+import '../../blocs/auth/login_cubit/login_cubit.dart';
+import '../../blocs/auth/login_cubit/login_state.dart';
+import '../../blocs/auth/user_auth_cubit/user_auth_cubit.dart';
 import '../../components/modals/error_modal.dart';
 import '../../components/modals/user_not_found_modal.dart';
 import '../../pages/auth/loading_page.dart';

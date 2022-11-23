@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../dependency_injection.dart';
-import '../../blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
-import '../../blocs/search_page_content_cubit/search_page_content_cubit.dart';
-import '../../blocs/search_page_content_cubit/search_page_content_state.dart';
+import '../../blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
+import '../../blocs/search/search_instruments_cubit/search_instruments_cubit.dart';
+import '../../blocs/search/search_page_content_cubit/search_page_content_cubit.dart';
+import '../../blocs/search/search_page_content_cubit/search_page_content_state.dart';
 import '../../components/unknowed_bloc_state_view.dart';
 import '../../pages/home/search_page.dart';
 import 'recent_search_items_cubit_view.dart';
+import 'search_instruments_cubit_view.dart';
 
 class SearchNavigationModule extends StatefulWidget {
   const SearchNavigationModule({super.key});
@@ -30,28 +32,25 @@ class _SearchNavigationModuleState extends State<SearchNavigationModule> {
         BlocProvider<RecentSearchItemsCubit>(
           create: (context) => getIt<RecentSearchItemsCubit>()..load(),
         ),
+        BlocProvider<SearchInstrumentsCubit>(
+          create: (context) => getIt<SearchInstrumentsCubit>(),
+        ),
       ],
       child: SearchPage(
-        searchTextControlller: searchTextController,
+        searchTextController: searchTextController,
         searchFocusNode: searchFocusNode,
         pageContent:
             BlocBuilder<SearchPageContentCubit, SearchPageContentState>(
           builder: (context, state) {
             if (state is SearchingContentState) {
-              return SizedBox();
-              // SearchResultInstrumentList(
-              //   shares: shares,
-              //   bonds: bonds,
-              //   currencies: currencies,
-              //   etfs: etfs,
-              //   futures: futures,
-              // );
+              return const SearchInstrumentsCubitView();
             } else if (state is RecentSearchItemsContentState) {
               return RecentSearchItemsCubitView(
                 onPressItem: (text) {
                   searchTextController.text = text;
                   BlocProvider.of<SearchPageContentCubit>(context)
                       .startSearching();
+                  BlocProvider.of<SearchInstrumentsCubit>(context).search(text);
                 },
               );
             }

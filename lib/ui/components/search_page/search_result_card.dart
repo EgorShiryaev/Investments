@@ -35,7 +35,7 @@ class SearchResultCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    instrument.ticker,
+                    instrument.title,
                     style: textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,

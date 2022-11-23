@@ -1,4 +1,4 @@
-import '../../../logic/models/user.dart';
+import '../../../../logic/models/user.dart';
 
 abstract class SignUpState {}
 

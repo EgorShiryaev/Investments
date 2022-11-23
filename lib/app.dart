@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
-import 'ui/bloc_views/user_auth_cubit_view.dart';
+import 'ui/bloc_views/auth/user_auth_cubit_view.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

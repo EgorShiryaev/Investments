@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import '../../dependency_injection.dart';
-import '../../logic/models/login_data.dart';
-import '../blocs/user_auth_cubit/user_auth_cubit.dart';
-import '../blocs/user_auth_cubit/user_auth_state.dart';
-import '../components/modals/error_modal.dart';
-import '../pages/home_tab_page.dart';
-import 'auth/auth_navigation_cubit_view.dart';
+import '../../../dependency_injection.dart';
+import '../../../logic/models/login_data.dart';
+import '../../blocs/auth/user_auth_cubit/user_auth_cubit.dart';
+import '../../blocs/auth/user_auth_cubit/user_auth_state.dart';
+import '../../components/modals/error_modal.dart';
+import '../../pages/home_tab_page.dart';
+import 'auth_navigation_cubit_view.dart';
 
 class UserAuthCubitView extends StatelessWidget {
   const UserAuthCubitView({super.key});

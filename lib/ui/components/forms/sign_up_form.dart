@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/utils/validator.dart';
 
-import '../../blocs/sign_up_cubit/sign_up_cubit.dart';
+import '../../blocs/auth/sign_up_cubit/sign_up_cubit.dart';
 import '../form_text_field.dart';
 import 'form_wrapper.dart';
 

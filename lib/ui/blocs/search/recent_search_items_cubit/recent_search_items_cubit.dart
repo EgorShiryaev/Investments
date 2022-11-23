@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/usecases/recent_search_items_usecases.dart';
+import '../../../../logic/usecases/recent_search_items_usecases.dart';
 import 'recent_search_items_state.dart';
 
 class RecentSearchItemsCubit extends Cubit<RecentSearchItemsState> {

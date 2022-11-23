@@ -15,23 +15,29 @@ class InstrumentList {
     required this.currencies,
   });
 
+  static List<Instrument> _listDynamicToInstruments(
+    List<dynamic> list,
+  ) {
+    return list
+        .map((v) => Instrument.fromJson(v as Map<String, dynamic>))
+        .toList();
+  }
+
   factory InstrumentList.fromJson(Map<String, dynamic> json) {
     return InstrumentList(
-      shares: (json['shares'] as List<Map<String, dynamic>>)
-          .map(Instrument.fromJson)
-          .toList(),
-      bonds: (json['bonds'] as List<Map<String, dynamic>>)
-          .map(Instrument.fromJson)
-          .toList(),
-      futures: (json['futures'] as List<Map<String, dynamic>>)
-          .map(Instrument.fromJson)
-          .toList(),
-      etfs: (json['etfs'] as List<Map<String, dynamic>>)
-          .map(Instrument.fromJson)
-          .toList(),
-      currencies: (json['currencies'] as List<Map<String, dynamic>>)
-          .map(Instrument.fromJson)
-          .toList(),
+      shares: _listDynamicToInstruments(json['shares']),
+      bonds: _listDynamicToInstruments(json['bonds']),
+      futures: _listDynamicToInstruments(json['futures']),
+      etfs: _listDynamicToInstruments(json['etfs']),
+      currencies: _listDynamicToInstruments(json['currencies']),
     );
+  }
+
+  bool get isEmpty {
+    return bonds.isEmpty &&
+        currencies.isEmpty &&
+        etfs.isEmpty &&
+        futures.isEmpty &&
+        shares.isEmpty;
   }
 }

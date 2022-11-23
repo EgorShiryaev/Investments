@@ -5,20 +5,24 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 import 'logic/datasources/recent_search_items_local_datasources.dart';
+import 'logic/datasources/search_instrumnets_remote_datsource.dart';
 import 'logic/datasources/secure_local_datasource.dart';
 import 'logic/datasources/user_remote_datasource.dart';
 import 'logic/repositories/auth_repository.dart';
 import 'logic/repositories/previous_login_data_repository.dart';
 import 'logic/repositories/recent_search_items_repository.dart';
+import 'logic/repositories/search_instruments_repository.dart';
 import 'logic/usecases/auth_usecases.dart';
 import 'logic/usecases/previous_login_data_usecases.dart';
 import 'logic/usecases/recent_search_items_usecases.dart';
-import 'ui/blocs/auth_navigation_cubit/auth_navigation_cubit.dart';
-import 'ui/blocs/login_cubit/login_cubit.dart';
-import 'ui/blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
-import 'ui/blocs/search_page_content_cubit/search_page_content_cubit.dart';
-import 'ui/blocs/sign_up_cubit/sign_up_cubit.dart';
-import 'ui/blocs/user_auth_cubit/user_auth_cubit.dart';
+import 'logic/usecases/search_instruments_usecases.dart';
+import 'ui/blocs/auth/auth_navigation_cubit/auth_navigation_cubit.dart';
+import 'ui/blocs/auth/login_cubit/login_cubit.dart';
+import 'ui/blocs/auth/sign_up_cubit/sign_up_cubit.dart';
+import 'ui/blocs/auth/user_auth_cubit/user_auth_cubit.dart';
+import 'ui/blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
+import 'ui/blocs/search/search_instruments_cubit/search_instruments_cubit.dart';
+import 'ui/blocs/search/search_page_content_cubit/search_page_content_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -74,11 +78,17 @@ void _setupSearchModuleDependency(http.Client httpClient) {
       usecases: getIt(),
     ),
   );
+  getIt.registerFactory<SearchInstrumentsCubit>(
+    () => SearchInstrumentsCubit(usecases: getIt()),
+  );
 
   getIt.registerLazySingleton<RecentSearchItemsUsecases>(
     () => RecentSearchItemsUsecases(
       repository: getIt(),
     ),
+  );
+  getIt.registerLazySingleton<SearchInstrumentsUsecases>(
+    () => SearchInstrumentsUsecases(repository: getIt()),
   );
 
   getIt.registerLazySingleton<RecentSearchItemsRepository>(
@@ -86,8 +96,16 @@ void _setupSearchModuleDependency(http.Client httpClient) {
       localDatasource: getIt(),
     ),
   );
+  getIt.registerLazySingleton<SearchInstrumentsRepository>(
+    () => SearchInstrumentsRepository(
+      remoteDatasource: getIt(),
+    ),
+  );
 
   getIt.registerLazySingleton<RecentSearchItemsLocalDatasource>(
     RecentSearchItemsLocalDatasource.new,
+  );
+  getIt.registerLazySingleton<SearchInstrumentsRemoteDatasource>(
+    () => SearchInstrumentsRemoteDatasource(clien: httpClient),
   );
 }

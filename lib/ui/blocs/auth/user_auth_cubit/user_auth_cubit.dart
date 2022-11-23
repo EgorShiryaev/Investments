@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/models/login_data.dart';
-import '../../../logic/models/user.dart';
-import '../../../logic/usecases/auth_usecases.dart';
-import '../../../logic/usecases/previous_login_data_usecases.dart';
-import '../../../logic/utils/crypto_utils.dart';
+import '../../../../logic/models/login_data.dart';
+import '../../../../logic/models/user.dart';
+import '../../../../logic/usecases/auth_usecases.dart';
+import '../../../../logic/usecases/previous_login_data_usecases.dart';
+import '../../../../logic/utils/crypto_utils.dart';
 import 'user_auth_state.dart';
 
 class UserAuthCubit extends Cubit<UserAuthState> {

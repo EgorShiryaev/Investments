@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
-import '../../blocs/search_page_content_cubit/search_page_content_cubit.dart';
+import '../../blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
+import '../../blocs/search/search_instruments_cubit/search_instruments_cubit.dart';
+import '../../blocs/search/search_page_content_cubit/search_page_content_cubit.dart';
 import '../../components/form_text_field.dart';
 import '../../components/page_wrapper.dart';
 
 class SearchPage extends StatefulWidget {
-  final TextEditingController searchTextControlller;
+  final TextEditingController searchTextController;
   final FocusNode searchFocusNode;
   final Widget pageContent;
 
   const SearchPage({
     super.key,
-    required this.searchTextControlller,
+    required this.searchTextController,
     required this.searchFocusNode,
     required this.pageContent,
   });
@@ -23,8 +24,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  void _startSearching() {
+  void _startSearching(String text) {
     BlocProvider.of<SearchPageContentCubit>(context).startSearching();
+    BlocProvider.of<SearchInstrumentsCubit>(context).search(text);
   }
 
   void _saveSearchingText(String text) {
@@ -33,6 +35,7 @@ class _SearchPageState extends State<SearchPage> {
 
   void _stopSearching() {
     BlocProvider.of<SearchPageContentCubit>(context).stopSearching();
+    BlocProvider.of<SearchInstrumentsCubit>(context).stopSearch();
   }
 
   void _unfocusSearchField() {
@@ -41,8 +44,8 @@ class _SearchPageState extends State<SearchPage> {
 
   void _submitSearchField(String? text) {
     if (text?.isNotEmpty ?? false) {
-      _startSearching();
-      _saveSearchingText(text!);
+      _startSearching(text!);
+      _saveSearchingText(text);
     }
   }
 
@@ -53,13 +56,9 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _search() {
-    final text = widget.searchTextControlller.text;
-    if (text.isNotEmpty) {
-      _startSearching();
-      _saveSearchingText(text);
-      _unfocusSearchField();
-    }
+  void _clear() {
+    widget.searchTextController.text = '';
+    _stopSearching();
   }
 
   @override
@@ -69,14 +68,14 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         FormTextField(
           label: 'Поиск',
-          controller: widget.searchTextControlller,
+          controller: widget.searchTextController,
           focusNode: widget.searchFocusNode,
           keyboardType: TextInputType.text,
           onFieldSubmitted: _submitSearchField,
           onChange: _onChangeText,
           suffixIcon: IconButton(
-            onPressed: _search,
-            icon: const Icon(Icons.search),
+            onPressed: _clear,
+            icon: const Icon(Icons.clear),
           ),
         ),
         widget.pageContent,
