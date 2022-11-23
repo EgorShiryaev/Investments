@@ -24,28 +24,29 @@ class UserAuthCubit extends Cubit<UserAuthState> {
 
   User? get user => _user;
 
-  Future<void> checkUserAuthState() async {
-    final previousLoginData =
-        await _previousLoginDataUsecases.previousLoginData.catchError((error) {
-      emit(UserIsNotAuth());
-    });
+  void checkUserAuthState() {
+    unawaited(
+      _previousLoginDataUsecases.previousLoginData.then((value) {
+        if (value == null) {
+          emit(UserIsNotAuth());
+          return;
+        }
 
-    if (previousLoginData == null) {
-      emit(UserIsNotAuth());
-      return;
-    }
+        final loginData = LoginData(
+          email: value.email,
+          password: hashingPassword(value.password),
+        );
 
-    final loginData = LoginData(
-      email: previousLoginData.email,
-      password: hashingPassword(previousLoginData.password),
+        _authUsecases.login(loginData).then((value) {
+          _user = value;
+          emit(UserIsAuth());
+        }).catchError((_) {
+          emit(AutologinFailureAuthState(loginData: value));
+        });
+      }).catchError((error) {
+        emit(UserIsNotAuth());
+      }),
     );
-
-    await _authUsecases.login(loginData).then((value) {
-      _user = value;
-      emit(UserIsAuth());
-    }).catchError((_) {
-      emit(AutologinFailureAuthState(loginData: previousLoginData));
-    });
   }
 
   void auth(LoginData loginData, User userData) {

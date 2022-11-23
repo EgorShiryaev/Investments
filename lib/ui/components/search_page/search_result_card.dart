@@ -20,9 +20,7 @@ class SearchResultCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Card(
       child: Padding(
-        padding: AppTheme.cardContentPadding.copyWith(
-          right: 10,
-        ),
+        padding: AppTheme.cardContentPadding,
         child: Row(
           children: [
             Expanded(

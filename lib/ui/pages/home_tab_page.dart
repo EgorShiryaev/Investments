@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../bloc_views/search/search_page_content_cubit_view.dart';
 import 'home/favorites_page.dart';
 import 'home/profile_page.dart';
-import 'home/search_page.dart';
 
 class HomeTabsPage extends StatefulWidget {
   const HomeTabsPage({super.key});
@@ -23,11 +23,14 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: [
-        const FavoritesPage(),
-        const SearchPage(),
-        const ProfilePage(),
-      ].elementAt(selectedIndex),
+      body: IndexedStack(
+        index: selectedIndex,
+        children: const [
+          FavoritesPage(),
+          SearchNavigationModule(),
+          ProfilePage(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: changeSelectedIndex,
         currentIndex: selectedIndex,

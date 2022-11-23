@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../dependency_injection.dart';
+import '../../blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
+import '../../blocs/search_page_content_cubit/search_page_content_cubit.dart';
+import '../../blocs/search_page_content_cubit/search_page_content_state.dart';
+import '../../components/unknowed_bloc_state_view.dart';
+import '../../pages/home/search_page.dart';
+import 'recent_search_items_cubit_view.dart';
+
+class SearchNavigationModule extends StatefulWidget {
+  const SearchNavigationModule({super.key});
+
+  @override
+  State<SearchNavigationModule> createState() => _SearchNavigationModuleState();
+}
+
+class _SearchNavigationModuleState extends State<SearchNavigationModule> {
+  final searchTextController = TextEditingController();
+  final searchFocusNode = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SearchPageContentCubit>(
+          create: (context) => getIt<SearchPageContentCubit>(),
+        ),
+        BlocProvider<RecentSearchItemsCubit>(
+          create: (context) => getIt<RecentSearchItemsCubit>()..load(),
+        ),
+      ],
+      child: SearchPage(
+        searchTextControlller: searchTextController,
+        searchFocusNode: searchFocusNode,
+        pageContent:
+            BlocBuilder<SearchPageContentCubit, SearchPageContentState>(
+          builder: (context, state) {
+            if (state is SearchingContentState) {
+              return SizedBox();
+              // SearchResultInstrumentList(
+              //   shares: shares,
+              //   bonds: bonds,
+              //   currencies: currencies,
+              //   etfs: etfs,
+              //   futures: futures,
+              // );
+            } else if (state is RecentSearchItemsContentState) {
+              return RecentSearchItemsCubitView(
+                onPressItem: (text) {
+                  searchTextController.text = text;
+                  BlocProvider.of<SearchPageContentCubit>(context)
+                      .startSearching();
+                },
+              );
+            }
+            return const UnknowedfBlocStateView();
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    searchFocusNode.dispose();
+    super.dispose();
+  }
+}

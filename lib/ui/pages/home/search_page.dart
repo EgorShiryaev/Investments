@@ -1,192 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/models/instrument.dart';
+import '../../blocs/recent_search_items_cubit/recent_search_items_cubit.dart';
+import '../../blocs/search_page_content_cubit/search_page_content_cubit.dart';
 import '../../components/form_text_field.dart';
 import '../../components/page_wrapper.dart';
-import '../../components/search_page/previous_requests_list.dart';
-import '../../components/search_page/search_result_instrument_list.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final TextEditingController searchTextControlller;
+  final FocusNode searchFocusNode;
+  final Widget pageContent;
+
+  const SearchPage({
+    super.key,
+    required this.searchTextControlller,
+    required this.searchFocusNode,
+    required this.pageContent,
+  });
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final searchTextControlller = TextEditingController();
-  final searchFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    searchTextControlller.dispose();
-    searchFocusNode.dispose();
-    super.dispose();
+  void _startSearching() {
+    BlocProvider.of<SearchPageContentCubit>(context).startSearching();
   }
 
-  void copyPreviousRequest(String previousRequest) {
-    searchTextControlller.text = previousRequest;
-    setState(() {});
+  void _saveSearchingText(String text) {
+    BlocProvider.of<RecentSearchItemsCubit>(context).add(text);
+  }
+
+  void _stopSearching() {
+    BlocProvider.of<SearchPageContentCubit>(context).stopSearching();
+  }
+
+  void _unfocusSearchField() {
+    widget.searchFocusNode.unfocus();
+  }
+
+  void _submitSearchField(String? text) {
+    if (text?.isNotEmpty ?? false) {
+      _startSearching();
+      _saveSearchingText(text!);
+    }
+  }
+
+  void _onChangeText(String? value) {
+    if (value?.isEmpty ?? true) {
+      _stopSearching();
+      _unfocusSearchField();
+    }
+  }
+
+  void _search() {
+    final text = widget.searchTextControlller.text;
+    if (text.isNotEmpty) {
+      _startSearching();
+      _saveSearchingText(text);
+      _unfocusSearchField();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final previousRequests = ['123', '231', '321'];
     return PageWrapper(
       pageTitle: 'Поиск',
       children: [
         FormTextField(
           label: 'Поиск',
-          controller: searchTextControlller,
-          focusNode: searchFocusNode,
+          controller: widget.searchTextControlller,
+          focusNode: widget.searchFocusNode,
+          keyboardType: TextInputType.text,
+          onFieldSubmitted: _submitSearchField,
+          onChange: _onChangeText,
+          suffixIcon: IconButton(
+            onPressed: _search,
+            icon: const Icon(Icons.search),
+          ),
         ),
-        SearchResultInstrumentList(
-          shares: shares,
-          bonds: bonds,
-          currencies: currencies,
-          etfs: etfs,
-          futures: futures,
-        ),
-        PreviuosRequiestsList(
-          previousRequests: previousRequests,
-          onPressItem: copyPreviousRequest,
-        ),
+        widget.pageContent,
       ],
     );
   }
 }
-
-final shares = [
-  Instrument(
-    figi: 'figi',
-    ticker: '123',
-    title: 'Share 1',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '231',
-    title: 'Share 2',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '321',
-    title: 'Share 3',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-];
-
-final bonds = [
-  Instrument(
-    figi: 'figi',
-    ticker: '123',
-    title: 'Bond 1',
-    lot: 100,
-    currency: 'rub',
-    type: 'Bond',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '231',
-    title: 'Bond 2',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '321',
-    title: 'Bond 3',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-];
-
-final etfs = [
-  Instrument(
-    figi: 'figi',
-    ticker: '123',
-    title: 'Etf 1',
-    lot: 100,
-    currency: 'rub',
-    type: 'Bond',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '231',
-    title: 'Etf 2',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '321',
-    title: 'Etf 3',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-];
-
-final futures = [
-  Instrument(
-    figi: 'figi',
-    ticker: '123',
-    title: 'Futures 1',
-    lot: 100,
-    currency: 'rub',
-    type: 'Bond',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '231',
-    title: 'Futures 2',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '321',
-    title: 'Futures 3',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-];
-
-final currencies = [
-  Instrument(
-    figi: 'figi',
-    ticker: '123',
-    title: 'Currency 1',
-    lot: 100,
-    currency: 'rub',
-    type: 'Bond',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '231',
-    title: 'Currency 2',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-  Instrument(
-    figi: 'figi',
-    ticker: '321',
-    title: 'Currency 3',
-    lot: 100,
-    currency: 'rub',
-    type: 'share',
-  ),
-];

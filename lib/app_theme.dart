@@ -10,6 +10,7 @@ class AppTheme {
   static const _tertiaryColor = Color(0xFF0B6CFF); // ~1%
   static const _onTertiaryColor = Color(0xFFFFFFFF);
   static const _errorContainerColor = Color(0xFFFF0000);
+  static const _onErrorContainerColor = Color(0xFFFFFFFF);
   static const _surfaceColor = Color(0xFFFFFFFF);
 
   static const _elevation = 10.0;
@@ -25,8 +26,8 @@ class AppTheme {
       onTertiary: _onTertiaryColor,
       errorContainer: _errorContainerColor,
       error: _errorContainerColor,
-      onError: _errorContainerColor,
-      onErrorContainer: _errorContainerColor,
+      onError: _onErrorContainerColor,
+      onErrorContainer: _onErrorContainerColor,
       surface: _surfaceColor,
     );
   }

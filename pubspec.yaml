@@ -21,6 +21,7 @@ dependencies:
   flutter_native_splash: ^2.2.13
   crypt: ^4.2.1
   google_fonts: ^3.0.1
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
