@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/auth/auth_navigation_cubit/auth_navigation_cubit.dart';
-import '../../components/forms/sign_up_form.dart';
-import '../../components/link.dart';
-import '../../components/page_wrapper.dart';
+import '../../components/auth/forms/sign_up_form.dart';
+import '../../components/auth/text_with_link.dart';
+import '../../components/wrappers/page_wrapper.dart';
 
 class SignUpPage extends StatefulWidget {
   final TextEditingController fullNameController;
@@ -32,33 +32,21 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageWrapper(
-        pageTitle: 'Регистрация',
-        children: [
-          SignUpForm(
-            fullNameController: widget.fullNameController,
-            emailController: widget.emailController,
-            passwordController: widget.passwordController,
-            confirmPasswordController: widget.confirmPasswordController,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Text(
-                  'У вас уже есть аккаунт?',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Link(
-                  text: 'Войти в аккаунт',
-                  onPress: navigateToLogin,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+    return PageWrapper(
+      pageTitle: 'Регистрация',
+      children: [
+        SignUpForm(
+          fullNameController: widget.fullNameController,
+          emailController: widget.emailController,
+          passwordController: widget.passwordController,
+          confirmPasswordController: widget.confirmPasswordController,
+        ),
+        TextWithLink(
+          text: 'У вас уже есть аккаунт?',
+          linkText: 'Войти в аккаунт',
+          onPressLink: navigateToLogin,
+        ),
+      ],
     );
   }
 }

@@ -63,34 +63,31 @@ class _FormTextFieldState extends State<FormTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Material(
-        color: Theme.of(context).colorScheme.background,
-        elevation: isFocused ? 10 : 0,
-        child: Focus(
-          onFocusChange: changeIsFocus,
-          child: TextFormField(
-            keyboardType: widget.keyboardType,
-            decoration: InputDecoration(
-              label: Text(widget.label),
-              suffixIcon: widget.obscureText ?? false
-                  ? IconButton(
-                      icon: Icon(
-                        isHidden ? Icons.visibility : Icons.visibility_off,
-                      ),
-                      onPressed: changeIsVisible,
-                    )
-                  : widget.suffixIcon,
-            ),
-            onChanged: widget.onChange,
-            onEditingComplete: focusNextField,
-            onFieldSubmitted: widget.onFieldSubmitted,
-            focusNode: widget.focusNode,
-            obscureText: isHidden,
-            validator: widget.validator,
-            controller: widget.controller,
+    return Material(
+      color: Theme.of(context).colorScheme.background,
+      elevation: isFocused ? 10 : 0,
+      child: Focus(
+        onFocusChange: changeIsFocus,
+        child: TextFormField(
+          keyboardType: widget.keyboardType,
+          decoration: InputDecoration(
+            label: Text(widget.label),
+            suffixIcon: widget.obscureText ?? false
+                ? IconButton(
+                    icon: Icon(
+                      isHidden ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: changeIsVisible,
+                  )
+                : widget.suffixIcon,
           ),
+          onChanged: widget.onChange,
+          onEditingComplete: focusNextField,
+          onFieldSubmitted: widget.onFieldSubmitted,
+          focusNode: widget.focusNode,
+          obscureText: isHidden,
+          validator: widget.validator,
+          controller: widget.controller,
         ),
       ),
     );

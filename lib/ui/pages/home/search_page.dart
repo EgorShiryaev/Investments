@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../blocs/index.dart';
 import '../../components/form_text_field.dart';
-import '../../components/page_wrapper.dart';
+import '../../components/wrappers/page_wrapper.dart';
 
 class SearchPage extends StatefulWidget {
   final TextEditingController searchTextController;
   final FocusNode searchFocusNode;
-  final Widget pageContent;
+  final List<Widget> children;
 
   const SearchPage({
     super.key,
     required this.searchTextController,
     required this.searchFocusNode,
-    required this.pageContent,
+    required this.children,
   });
 
   @override
@@ -28,7 +28,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _saveSearchingText(String text) {
-    BlocProvider.of<RecentSearchItemsCubit>(context).add(text);
+    BlocProvider.of<RecentSearchListCubit>(context).add(text);
   }
 
   void _stopSearching() {
@@ -76,7 +76,7 @@ class _SearchPageState extends State<SearchPage> {
             icon: const Icon(Icons.clear),
           ),
         ),
-        widget.pageContent,
+        ...widget.children,
       ],
     );
   }
