@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/models/login_data.dart';
-import '../../blocs/auth/sign_up_cubit/sign_up_cubit.dart';
 import '../../blocs/auth/sign_up_cubit/sign_up_state.dart';
-import '../../blocs/auth/user_auth_cubit/user_auth_cubit.dart';
+import '../../blocs/index.dart';
 import '../../components/modals/error_modal.dart';
 import '../../components/modals/user_is_exists_modal.dart';
 import '../../pages/auth/loading_page.dart';
@@ -48,7 +47,7 @@ class SignUpCubitView extends StatelessWidget {
         child: BlocBuilder<SignUpCubit, SignUpState>(
           builder: (context, state) {
             if (state is LoadingSignUpState) {
-               return const LoadingPage();
+              return const LoadingPage();
             }
             return SignUpPage(
               fullNameController: fullNameController,

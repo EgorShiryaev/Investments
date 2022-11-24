@@ -4,8 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../../dependency_injection.dart';
 import '../../../logic/models/login_data.dart';
-import '../../blocs/auth/user_auth_cubit/user_auth_cubit.dart';
 import '../../blocs/auth/user_auth_cubit/user_auth_state.dart';
+import '../../blocs/index.dart';
 import '../../components/modals/error_modal.dart';
 import '../../pages/home_tab_page.dart';
 import 'auth_navigation_cubit_view.dart';
@@ -14,7 +14,7 @@ class UserAuthCubitView extends StatelessWidget {
   const UserAuthCubitView({super.key});
 
   void blocListner(BuildContext context, UserAuthState state) {
-    if (state is! InitialUserAuthState) {
+    if (state is! InitialUserAuthState && state is!UserIsAuth) {
       FlutterNativeSplash.remove();
     }
     if (state is AutologinFailureAuthState) {
@@ -35,7 +35,10 @@ class UserAuthCubitView extends StatelessWidget {
           builder: (context, state) {
             LoginData? loginData;
             if (state is UserIsAuth) {
-              return const HomeTabsPage();
+              return BlocProvider<FavoriteInstrumentsCubit>(
+                create: (context) => getIt<FavoriteInstrumentsCubit>()..load(),
+                child: const HomeTabsPage(),
+              );
             } else if (state is AutologinFailureAuthState) {
               loginData = state.loginData;
             }

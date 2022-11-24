@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../global_variables.dart';
 import '../../../../logic/models/login_data.dart';
 import '../../../../logic/models/user.dart';
 import '../../../../logic/usecases/auth_usecases.dart';
@@ -20,9 +21,7 @@ class UserAuthCubit extends Cubit<UserAuthState> {
         _authUsecases = authUsecases,
         super(InitialUserAuthState());
 
-  User? _user;
-
-  User? get user => _user;
+ 
 
   void checkUserAuthState() {
     unawaited(
@@ -38,7 +37,7 @@ class UserAuthCubit extends Cubit<UserAuthState> {
         );
 
         _authUsecases.login(loginData).then((value) {
-          _user = value;
+          currentUser = value;
           emit(UserIsAuth());
         }).catchError((_) {
           emit(AutologinFailureAuthState(loginData: value));
@@ -50,13 +49,13 @@ class UserAuthCubit extends Cubit<UserAuthState> {
   }
 
   void auth(LoginData loginData, User userData) {
-    _user = userData;
+    currentUser = userData;
     emit(UserIsAuth());
     unawaited(_previousLoginDataUsecases.saveLoginData(loginData));
   }
 
   void logOut() {
-    _user = null;
+    currentUser = null;
     emit(UserIsNotAuth());
     unawaited(_previousLoginDataUsecases.deleteSavedLoginData());
   }

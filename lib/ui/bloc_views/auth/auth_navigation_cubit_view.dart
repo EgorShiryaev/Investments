@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../dependency_injection.dart';
 import '../../../logic/models/login_data.dart';
-import '../../blocs/auth/auth_navigation_cubit/auth_navigation_cubit.dart';
 import '../../blocs/auth/auth_navigation_cubit/auth_navigation_state.dart';
-import '../../blocs/auth/login_cubit/login_cubit.dart';
-import '../../blocs/auth/sign_up_cubit/sign_up_cubit.dart';
+import '../../blocs/index.dart';
 import '../../components/unknowed_bloc_state_view.dart';
 import 'login_cubit_view.dart';
 import 'sign_up_cubit_view.dart';

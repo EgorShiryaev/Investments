@@ -1,25 +1,23 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app_theme.dart';
 import '../../../logic/models/instrument.dart';
-import '../../blocs/index.dart';
 
-class SearchResultCard extends StatelessWidget {
+class FavoriteInstrumentCard extends StatelessWidget {
   final Instrument instrument;
-  final void Function(bool) onPressFavoriteIcon;
 
-  const SearchResultCard({
+  const FavoriteInstrumentCard({
     super.key,
     required this.instrument,
-    required this.onPressFavoriteIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = BlocProvider.of<FavoriteInstrumentsCubit>(context)
-        .checkInstrumentIsFavorite(instrument);
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final lotPrice = Random().nextDouble();
+    final price = (instrument.lot * lotPrice).toStringAsFixed(2);
     return Card(
       child: Padding(
         padding: AppTheme.cardContentPadding,
@@ -31,23 +29,26 @@ class SearchResultCard extends StatelessWidget {
                 children: [
                   Text(
                     instrument.ticker,
-                    style: textTheme.labelMedium,
+                    style: theme.textTheme.labelMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   const SizedBox(height: 2),
                   Text(
                     instrument.title,
-                    style: textTheme.titleMedium,
+                    style: theme.textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                   ),
                 ],
               ),
             ),
-            IconButton(
-              onPressed: () => onPressFavoriteIcon(isSelected),
-              icon: Icon(isSelected ? Icons.star_outlined : Icons.star_outline),
+            Text(
+              '$price ${instrument.currency}',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.w700,
+              ),
             )
           ],
         ),
