@@ -1,4 +1,4 @@
-import '../datasources/search_instrumnets_remote_datsource.dart';
+import '../datasources/search_instrumnets_remote_datasource.dart';
 import '../models/instrument_list.dart';
 
 class SearchInstrumentsRepository {
