@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../bloc_views/favorites/favorite_instruments_cubit_view.dart';
 import '../bloc_views/search/search_page_content_cubit_view.dart';
-import 'home/favorites_page.dart';
 import 'home/profile_page.dart';
 
 class HomeTabsPage extends StatefulWidget {
@@ -26,8 +26,8 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       body: IndexedStack(
         index: selectedIndex,
         children: const [
-          FavoritesPage(),
-          SearchNavigationModule(),
+          FavoriteInstrumentsCubitView(),
+          SearchPageContentCubitView(),
           ProfilePage(),
         ],
       ),

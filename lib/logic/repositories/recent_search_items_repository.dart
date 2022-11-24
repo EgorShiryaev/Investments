@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../datasources/recent_search_items_local_datasources.dart';
+import '../datasources/recent_search_items_local_datasource.dart';
 
 class RecentSearchItemsRepository {
   final RecentSearchItemsLocalDatasource _localDatasource;

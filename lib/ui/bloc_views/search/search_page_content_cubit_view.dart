@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../dependency_injection.dart';
-import '../../blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
-import '../../blocs/search/search_instruments_cubit/search_instruments_cubit.dart';
-import '../../blocs/search/search_page_content_cubit/search_page_content_cubit.dart';
+import '../../blocs/index.dart';
 import '../../blocs/search/search_page_content_cubit/search_page_content_state.dart';
 import '../../components/unknowed_bloc_state_view.dart';
 import '../../pages/home/search_page.dart';
 import 'recent_search_items_cubit_view.dart';
 import 'search_instruments_cubit_view.dart';
 
-class SearchNavigationModule extends StatefulWidget {
-  const SearchNavigationModule({super.key});
+class SearchPageContentCubitView extends StatefulWidget {
+  const SearchPageContentCubitView({super.key});
 
   @override
-  State<SearchNavigationModule> createState() => _SearchNavigationModuleState();
+  State<SearchPageContentCubitView> createState() =>
+      _SearchPageContentCubitViewState();
 }
 
-class _SearchNavigationModuleState extends State<SearchNavigationModule> {
+class _SearchPageContentCubitViewState
+    extends State<SearchPageContentCubitView> {
   final searchTextController = TextEditingController();
   final searchFocusNode = FocusNode();
 

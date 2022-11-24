@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
-import '../../blocs/search/search_instruments_cubit/search_instruments_cubit.dart';
-import '../../blocs/search/search_page_content_cubit/search_page_content_cubit.dart';
+import '../../blocs/index.dart';
 import '../../components/form_text_field.dart';
 import '../../components/page_wrapper.dart';
 

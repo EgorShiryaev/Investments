@@ -4,25 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
-import 'logic/datasources/recent_search_items_local_datasources.dart';
-import 'logic/datasources/search_instrumnets_remote_datsource.dart';
-import 'logic/datasources/secure_local_datasource.dart';
-import 'logic/datasources/user_remote_datasource.dart';
-import 'logic/repositories/auth_repository.dart';
-import 'logic/repositories/previous_login_data_repository.dart';
-import 'logic/repositories/recent_search_items_repository.dart';
-import 'logic/repositories/search_instruments_repository.dart';
-import 'logic/usecases/auth_usecases.dart';
-import 'logic/usecases/previous_login_data_usecases.dart';
-import 'logic/usecases/recent_search_items_usecases.dart';
-import 'logic/usecases/search_instruments_usecases.dart';
-import 'ui/blocs/auth/auth_navigation_cubit/auth_navigation_cubit.dart';
-import 'ui/blocs/auth/login_cubit/login_cubit.dart';
-import 'ui/blocs/auth/sign_up_cubit/sign_up_cubit.dart';
-import 'ui/blocs/auth/user_auth_cubit/user_auth_cubit.dart';
-import 'ui/blocs/search/recent_search_items_cubit/recent_search_items_cubit.dart';
-import 'ui/blocs/search/search_instruments_cubit/search_instruments_cubit.dart';
-import 'ui/blocs/search/search_page_content_cubit/search_page_content_cubit.dart';
+import 'logic/datasources/index.dart';
+import 'logic/repositories/index.dart';
+import 'logic/usecases/index.dart';
+import 'ui/blocs/index.dart';
 
 final getIt = GetIt.instance;
 
@@ -30,6 +15,7 @@ void setupDependency() {
   final httpClient = http.Client();
   _setupAuthModuleDependency(httpClient);
   _setupSearchModuleDependency(httpClient);
+  _setupFavoritesModuleDependency(httpClient);
 }
 
 void _setupAuthModuleDependency(http.Client httpClient) {
@@ -107,5 +93,27 @@ void _setupSearchModuleDependency(http.Client httpClient) {
   );
   getIt.registerLazySingleton<SearchInstrumentsRemoteDatasource>(
     () => SearchInstrumentsRemoteDatasource(clien: httpClient),
+  );
+}
+
+void _setupFavoritesModuleDependency(http.Client httpClient) {
+  getIt.registerFactory<FavoriteInstrumentsCubit>(
+    () => FavoriteInstrumentsCubit(usecases: getIt()),
+  );
+
+  getIt.registerLazySingleton<FavoriteInstrumentsUsecases>(
+    () => FavoriteInstrumentsUsecases(
+      repository: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<FavoriteInstrumentsRepository>(
+    () => FavoriteInstrumentsRepository(
+      remoteDatasource: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<FavoriteInstrumentsRemoteDatasource>(
+    () => FavoriteInstrumentsRemoteDatasource(clien: httpClient),
   );
 }
