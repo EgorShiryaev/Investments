@@ -37,6 +37,7 @@ class FavoriteInstrumentsCubitView extends StatelessWidget {
       child: BlocBuilder<FavoriteInstrumentsCubit, FavoriteInstrumentsState>(
         builder: (context, state) {
           return FavoritesPage(
+            isRefresning: state is RefreshingFavoriteInstrumentsState,
             children: [
               if (state is InitialFavoriteInstrumentsState)
                 const SizedBox.shrink()
@@ -48,6 +49,8 @@ class FavoriteInstrumentsCubitView extends StatelessWidget {
                 ..._buildList(state.list, context)
               else if (state is ErrorFavoriteInstrumentsState)
                 const SizedBox.shrink()
+              else if (state is RefreshingFavoriteInstrumentsState)
+                ..._buildList(state.list, context)
               else
                 const UnknowedfBlocStateView()
             ],

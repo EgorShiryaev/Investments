@@ -4,7 +4,11 @@ class FavoriteInstrumentsState {}
 
 class InitialFavoriteInstrumentsState extends FavoriteInstrumentsState {}
 
-class RefreshingFavoriteInstrumentsState extends FavoriteInstrumentsState {}
+class RefreshingFavoriteInstrumentsState extends FavoriteInstrumentsState {
+  final InstrumentList list;
+
+  RefreshingFavoriteInstrumentsState({required this.list});
+}
 
 class LoadingFavoriteInstrumentsState extends FavoriteInstrumentsState {}
 
