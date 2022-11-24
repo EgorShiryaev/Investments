@@ -5,13 +5,13 @@ import 'subtitle.dart';
 class PageTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final Widget? titleAction;
+  final Widget? action;
 
   const PageTitle({
     super.key,
     required this.title,
     this.subtitle,
-    this.titleAction,
+    this.action,
   });
 
   @override
@@ -26,7 +26,7 @@ class PageTitle extends StatelessWidget {
               title,
               style: Theme.of(context).textTheme.displayMedium,
             ),
-            if (titleAction != null) titleAction!
+            if (action != null) action!
           ],
         ),
         if (subtitle != null)

@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-class RecentSearchItemsLocalDatasource {
+class RecentSearchListLocalDatasource {
   static const _boxName = 'recent_search_items';
 
   Box<String>? _box;

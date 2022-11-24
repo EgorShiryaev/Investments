@@ -5,7 +5,7 @@ import '../../../app_theme.dart';
 import '../../../logic/models/instrument.dart';
 import '../../blocs/index.dart';
 
-class SearchResultCard extends StatelessWidget {
+class SearchResultCard extends StatefulWidget {
   final Instrument instrument;
   final void Function(bool) onPressFavoriteIcon;
 
@@ -16,9 +16,14 @@ class SearchResultCard extends StatelessWidget {
   });
 
   @override
+  State<SearchResultCard> createState() => _SearchResultCardState();
+}
+
+class _SearchResultCardState extends State<SearchResultCard> {
+  @override
   Widget build(BuildContext context) {
     final isSelected = BlocProvider.of<FavoriteInstrumentsCubit>(context)
-        .checkInstrumentIsFavorite(instrument);
+        .checkInstrumentIsFavorite(widget.instrument);
     final textTheme = Theme.of(context).textTheme;
     return Card(
       child: Padding(
@@ -30,14 +35,14 @@ class SearchResultCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    instrument.ticker,
+                    widget.instrument.ticker,
                     style: textTheme.labelMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    instrument.title,
+                    widget.instrument.title,
                     style: textTheme.titleMedium,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
@@ -46,7 +51,10 @@ class SearchResultCard extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => onPressFavoriteIcon(isSelected),
+              onPressed: () {
+                widget.onPressFavoriteIcon(isSelected);
+                setState(() {});
+              },
               icon: Icon(isSelected ? Icons.star_outlined : Icons.star_outline),
             )
           ],

@@ -59,8 +59,8 @@ void _setupAuthModuleDependency(http.Client httpClient) {
 
 void _setupSearchModuleDependency(http.Client httpClient) {
   getIt.registerFactory<SearchPageContentCubit>(SearchPageContentCubit.new);
-  getIt.registerFactory<RecentSearchItemsCubit>(
-    () => RecentSearchItemsCubit(
+  getIt.registerFactory<RecentSearchListCubit>(
+    () => RecentSearchListCubit(
       usecases: getIt(),
     ),
   );
@@ -68,8 +68,8 @@ void _setupSearchModuleDependency(http.Client httpClient) {
     () => SearchInstrumentsCubit(usecases: getIt()),
   );
 
-  getIt.registerLazySingleton<RecentSearchItemsUsecases>(
-    () => RecentSearchItemsUsecases(
+  getIt.registerLazySingleton<RecentSearchListUsecases>(
+    () => RecentSearchListUsecases(
       repository: getIt(),
     ),
   );
@@ -77,8 +77,8 @@ void _setupSearchModuleDependency(http.Client httpClient) {
     () => SearchInstrumentsUsecases(repository: getIt()),
   );
 
-  getIt.registerLazySingleton<RecentSearchItemsRepository>(
-    () => RecentSearchItemsRepository(
+  getIt.registerLazySingleton<RecentSearchListRepository>(
+    () => RecentSearchListRepository(
       localDatasource: getIt(),
     ),
   );
@@ -88,8 +88,8 @@ void _setupSearchModuleDependency(http.Client httpClient) {
     ),
   );
 
-  getIt.registerLazySingleton<RecentSearchItemsLocalDatasource>(
-    RecentSearchItemsLocalDatasource.new,
+  getIt.registerLazySingleton<RecentSearchListLocalDatasource>(
+    RecentSearchListLocalDatasource.new,
   );
   getIt.registerLazySingleton<SearchInstrumentsRemoteDatasource>(
     () => SearchInstrumentsRemoteDatasource(clien: httpClient),

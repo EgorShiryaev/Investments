@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../app_theme.dart';
 
-class RecentSearchItemCard extends StatelessWidget {
+class RecentSearchTextCard extends StatelessWidget {
   final String request;
   final void Function() onPress;
 
-  const RecentSearchItemCard({
+  const RecentSearchTextCard({
     super.key,
     required this.request,
     required this.onPress,
