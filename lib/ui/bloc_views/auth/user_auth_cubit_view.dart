@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../../../dependency_injection.dart';
 import '../../../logic/models/login_data.dart';
 import '../../blocs/auth/user_auth_cubit/user_auth_state.dart';
+import '../../blocs/favorites/quotes_cubit.dart/quotes_cubit.dart';
 import '../../blocs/index.dart';
 import '../../components/modals/error_modal.dart';
 import '../../pages/home_tab_page.dart';
@@ -14,7 +15,7 @@ class UserAuthCubitView extends StatelessWidget {
   const UserAuthCubitView({super.key});
 
   void blocListner(BuildContext context, UserAuthState state) {
-    if (state is! InitialUserAuthState && state is!UserIsAuth) {
+    if (state is! InitialUserAuthState && state is! UserIsAuth) {
       FlutterNativeSplash.remove();
     }
     if (state is AutologinFailureAuthState) {
@@ -35,8 +36,16 @@ class UserAuthCubitView extends StatelessWidget {
           builder: (context, state) {
             LoginData? loginData;
             if (state is UserIsAuth) {
-              return BlocProvider<FavoriteInstrumentsCubit>(
-                create: (context) => getIt<FavoriteInstrumentsCubit>()..load(),
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider<FavoriteInstrumentsCubit>(
+                    create: (context) =>
+                        getIt<FavoriteInstrumentsCubit>()..load(),
+                  ),
+                  BlocProvider<QuotesCubit>(
+                    create: (context) => getIt<QuotesCubit>()..connect(),
+                  ),
+                ],
                 child: const HomeTabsPage(),
               );
             } else if (state is AutologinFailureAuthState) {

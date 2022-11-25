@@ -52,9 +52,9 @@ class _RecentSearchListCubitViewState extends State<RecentSearchListCubitView> {
             searchFocusNode: widget.searchFocusNode,
             children: [
               if (state is InitialRecentSearchListState)
-                const LoadingIndicator()
+                 const LoadingIndicator()
               else if (state is LoadingRecentSearchListState)
-                const LoadingIndicator()
+                 const LoadingIndicator()
               else if (state is EmptyRecentSearchListState)
                 const SizedBox.shrink()
               else if (state is LoadedRecentSearchListState)

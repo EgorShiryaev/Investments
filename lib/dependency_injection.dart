@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'logic/datasources/index.dart';
 import 'logic/repositories/index.dart';
 import 'logic/usecases/index.dart';
+import 'ui/blocs/favorites/quotes_cubit.dart/quotes_cubit.dart';
 import 'ui/blocs/index.dart';
 
 final getIt = GetIt.instance;
@@ -100,9 +101,17 @@ void _setupFavoritesModuleDependency(http.Client httpClient) {
   getIt.registerFactory<FavoriteInstrumentsCubit>(
     () => FavoriteInstrumentsCubit(usecases: getIt()),
   );
+  getIt.registerFactory<QuotesCubit>(
+    () => QuotesCubit(usecases: getIt()),
+  );
 
   getIt.registerLazySingleton<FavoriteInstrumentsUsecases>(
     () => FavoriteInstrumentsUsecases(
+      repository: getIt(),
+    ),
+  );
+  getIt.registerLazySingleton<QoutesUsecases>(
+    () => QoutesUsecases(
       repository: getIt(),
     ),
   );
@@ -112,8 +121,16 @@ void _setupFavoritesModuleDependency(http.Client httpClient) {
       remoteDatasource: getIt(),
     ),
   );
+  getIt.registerLazySingleton<QoutesRepository>(
+    () => QoutesRepository(
+      remoteDatasource: getIt(),
+    ),
+  );
 
   getIt.registerLazySingleton<FavoriteInstrumentsRemoteDatasource>(
     () => FavoriteInstrumentsRemoteDatasource(clien: httpClient),
+  );
+  getIt.registerLazySingleton<QuotesRemoteDatasource>(
+    QuotesRemoteDatasource.new,
   );
 }

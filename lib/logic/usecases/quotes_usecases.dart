@@ -1,4 +1,3 @@
-import '../models/quotes.dart';
 import '../repositories/index.dart';
 
 class QoutesUsecases {
@@ -7,7 +6,9 @@ class QoutesUsecases {
   QoutesUsecases({required QoutesRepository repository})
       : _repository = repository;
 
-  Stream<Qoutes> get quotesStream => _repository.quotesStream;
+  Future<void> connect() => _repository.connect();
+
+  Stream<dynamic> get quotesStream => _repository.quotesStream;
 
   void subscribe(String figi) => _repository.subscribe(figi);
 

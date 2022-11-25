@@ -2,7 +2,9 @@ import '../../../../logic/models/quotes.dart';
 
 class QuotesState {}
 
-class InitialQuotesState extends QuotesState {}
+class DisconnectedQuotesState extends QuotesState {}
+
+class ConnectedQuotesState extends QuotesState {}
 
 class NewDataQuotesState extends QuotesState {
   final Qoutes quotes;

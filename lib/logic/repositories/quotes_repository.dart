@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import '../datasources/index.dart';
-import '../models/quotes.dart';
 
 class QoutesRepository {
   final QuotesRemoteDatasource _remoteDatasource;
@@ -11,12 +10,14 @@ class QoutesRepository {
   QoutesRepository({required QuotesRemoteDatasource remoteDatasource})
       : _remoteDatasource = remoteDatasource;
 
-  Stream<Qoutes> get quotesStream => _remoteDatasource.quotesStream;
+  Stream<dynamic> get quotesStream => _remoteDatasource.quotesStream;
+
+  Future<void> connect() => _remoteDatasource.connect();
 
   void subscribe(String figi) {
     _remoteDatasource.subscribe(figi);
     _subscribes.add(figi);
-    log('Subscribes: $_subscribes');
+    log('Subscribe: $figi');
   }
 
   void unsubscribe(String figi) {
@@ -24,7 +25,7 @@ class QoutesRepository {
       _remoteDatasource.unsubscribe(figi);
     }
     _subscribes.remove(figi);
-    log('Subscribes: $_subscribes');
+    log('Unsubscribe: $figi');
   }
 
   Future<void> dispose() => _remoteDatasource.dispose();

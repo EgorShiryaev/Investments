@@ -3,31 +3,25 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import '../models/quotes.dart';
+import '../../global_variables.dart';
 import '../utils/quotes_web_socket_utils.dart';
 import '../utils/uri_utils.dart';
 
 class QuotesRemoteDatasource {
   WebSocket? _websocketChannel;
   StreamSubscription<dynamic>? _websocketListner;
-  final _quotesStreamController = StreamController<Qoutes>();
+  final _quotesStreamController = StreamController<dynamic>();
 
-  Stream<Qoutes> get quotesStream => _quotesStreamController.stream;
+  bool connecting = false;
+
+  Stream<dynamic> get quotesStream => _quotesStreamController.stream;
 
   void subscribe(String figi) {
-    unawaited(
-      _checkConnectToWS().then((_) {
-        _websocketChannel!.add(getSinkJson(figi, isSubscribe: true));
-      }),
-    );
+    _websocketChannel!.add(getSinkJson(figi, isSubscribe: true));
   }
 
   void unsubscribe(String figi) {
-    unawaited(
-      _checkConnectToWS().then((_) {
-        _websocketChannel!.add(getSinkJson(figi, isSubscribe: false));
-      }),
-    );
+    _websocketChannel!.add(getSinkJson(figi, isSubscribe: false));
   }
 
   Future<void> dispose() async {
@@ -40,17 +34,10 @@ class QuotesRemoteDatasource {
     }
   }
 
-  Future<void> _checkConnectToWS() async {
+  Future<void> connect() async {
     if (_websocketChannel == null) {
-      return _connect();
-    } else if (_websocketListner == null) {
-      return _setupWebSocketListner();
-    }
-  }
-
-  Future<void> _connect() async {
-    if (_websocketChannel == null) {
-      await WebSocket.connect(getQuotesUrl()).then(
+      final url = getQuotesUrl(currentUser!.uuid);
+      await WebSocket.connect(url).then(
         (value) {
           _websocketChannel = value;
           _setupWebSocketListner();
@@ -68,14 +55,15 @@ class QuotesRemoteDatasource {
     _websocketListner = _websocketChannel!.listen(
       (event) {
         final Map<String, dynamic> response = jsonDecode(event as String);
-
-        _quotesStreamController
-            .add(response['quotations'] as Map<String, double>);
+        final quotes = response['quotations'];
+        if ((quotes as Map<String, dynamic>).isNotEmpty) {
+          _quotesStreamController.add(quotes);
+        }
       },
-      onDone: _connect,
+      onDone: connect,
       onError: (e) {
         log('Server error: $e');
-        _connect();
+        connect();
       },
     );
   }

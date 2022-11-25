@@ -26,6 +26,6 @@ Uri getInstrumentsUri(Map<String, dynamic>? queryParameters) {
   return Uri.http(baseUrl, _instrumentsPath, queryParameters);
 }
 
-String getQuotesUrl() {
-  return '$baseUrl/$quotesPath:$quotesPort';
+String getQuotesUrl(String useruuid) {
+  return 'ws://$apiUrl:$quotesPort/$quotesPath?userUuid=$useruuid';
 }
