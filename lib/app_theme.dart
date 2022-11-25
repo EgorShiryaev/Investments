@@ -13,7 +13,7 @@ class AppTheme {
   static const _onErrorContainerColor = Color(0xFFFFFFFF);
   static const _surfaceColor = Color(0xFFFFFFFF);
 
-  static const _elevation = 10.0;
+  static const _elevation = 8.0;
 
   ColorScheme get _colorScheme {
     return const ColorScheme.light(
@@ -142,6 +142,8 @@ class AppTheme {
   static const cardContentPadding =
       EdgeInsets.symmetric(vertical: 10, horizontal: 15);
 
+  static const pagePadding = EdgeInsets.symmetric(horizontal: 16);
+
   CardTheme get _cardTheme {
     return CardTheme(
       clipBehavior: Clip.hardEdge,
@@ -150,7 +152,7 @@ class AppTheme {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      margin: EdgeInsets.zero,
     );
   }
 

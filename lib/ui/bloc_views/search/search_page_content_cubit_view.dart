@@ -5,8 +5,7 @@ import '../../../dependency_injection.dart';
 import '../../blocs/index.dart';
 import '../../blocs/search/search_page_content_cubit/search_page_content_state.dart';
 import '../../components/unknowed_bloc_state_view.dart';
-import '../../pages/home/search_page.dart';
-import 'recent_search_items_cubit_view.dart';
+import 'recent_search_list_cubit_view.dart';
 import 'search_instruments_cubit_view.dart';
 
 class SearchPageContentCubitView extends StatefulWidget {
@@ -29,34 +28,28 @@ class _SearchPageContentCubitViewState
         BlocProvider<SearchPageContentCubit>(
           create: (context) => getIt<SearchPageContentCubit>(),
         ),
-        BlocProvider<RecentSearchItemsCubit>(
-          create: (context) => getIt<RecentSearchItemsCubit>()..load(),
+        BlocProvider<RecentSearchListCubit>(
+          create: (context) => getIt<RecentSearchListCubit>()..load(),
         ),
         BlocProvider<SearchInstrumentsCubit>(
           create: (context) => getIt<SearchInstrumentsCubit>(),
         ),
       ],
-      child: SearchPage(
-        searchTextController: searchTextController,
-        searchFocusNode: searchFocusNode,
-        pageContent:
-            BlocBuilder<SearchPageContentCubit, SearchPageContentState>(
-          builder: (context, state) {
-            if (state is SearchingContentState) {
-              return const SearchInstrumentsCubitView();
-            } else if (state is RecentSearchItemsContentState) {
-              return RecentSearchItemsCubitView(
-                onPressItem: (text) {
-                  searchTextController.text = text;
-                  BlocProvider.of<SearchPageContentCubit>(context)
-                      .startSearching();
-                  BlocProvider.of<SearchInstrumentsCubit>(context).search(text);
-                },
-              );
-            }
-            return const UnknowedfBlocStateView();
-          },
-        ),
+      child: BlocBuilder<SearchPageContentCubit, SearchPageContentState>(
+        builder: (context, state) {
+          if (state is SearchingContentState) {
+            return SearchInstrumentsCubitView(
+              searchFocusNode: searchFocusNode,
+              searchTextController: searchTextController,
+            );
+          } else if (state is RecentSearchListContentState) {
+            return RecentSearchListCubitView(
+              searchFocusNode: searchFocusNode,
+              searchTextController: searchTextController,
+            );
+          }
+          return const UnknowedfBlocStateView();
+        },
       ),
     );
   }

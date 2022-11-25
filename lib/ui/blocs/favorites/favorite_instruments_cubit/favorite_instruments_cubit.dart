@@ -31,24 +31,28 @@ class FavoriteInstrumentsCubit extends Cubit<FavoriteInstrumentsState> {
     );
   }
 
-  void refresh() {
-    unawaited(
-      _usecases.load().then((value) {
-        if (value.isEmpty) {
-          return emit(EmptyFavoriteInstrumentsState());
-        }
-        return emit(LoadedFavoriteInstrumentsState(list: value));
-      }).catchError(
-        (error) =>
-            emit(ErrorFavoriteInstrumentsState(message: error.toString())),
+  Future<void> refresh() async {
+    emit(
+      RefreshingFavoriteInstrumentsState(
+        list: _usecases.cachedFavoriteInstruments,
       ),
+    );
+    await _usecases.load().then((value) {
+      if (value.isEmpty) {
+        return emit(EmptyFavoriteInstrumentsState());
+      }
+      return emit(LoadedFavoriteInstrumentsState(list: value));
+    }).catchError(
+      (error) => emit(ErrorFavoriteInstrumentsState(message: error.toString())),
     );
   }
 
   void add(Instrument instrument) {
     _usecases.cachedFavoriteInstruments.addInstument(instrument);
     emit(
-      LoadedFavoriteInstrumentsState(list: _usecases.cachedFavoriteInstruments),
+      RefreshingFavoriteInstrumentsState(
+        list: _usecases.cachedFavoriteInstruments,
+      ),
     );
 
     unawaited(
@@ -65,7 +69,7 @@ class FavoriteInstrumentsCubit extends Cubit<FavoriteInstrumentsState> {
     _usecases.cachedFavoriteInstruments.deleteInstrument(instrument);
     if (needUpdateList) {
       emit(
-        LoadedFavoriteInstrumentsState(
+        RefreshingFavoriteInstrumentsState(
           list: _usecases.cachedFavoriteInstruments,
         ),
       );
