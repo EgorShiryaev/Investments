@@ -1,9 +1,9 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import '../../../app_theme.dart';
 import '../../../logic/models/instrument.dart';
+import '../../bloc_views/favorites/quotes_cubit_view.dart';
 
 class FavoriteInstrumentCard extends StatelessWidget {
   final Instrument instrument;
@@ -16,8 +16,6 @@ class FavoriteInstrumentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final lotPrice = Random().nextDouble();
-    final price = (instrument.lot * lotPrice).toStringAsFixed(2);
     return Card(
       child: Padding(
         padding: AppTheme.cardContentPadding,
@@ -43,13 +41,7 @@ class FavoriteInstrumentCard extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              '$price ${instrument.currency}',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.w700,
-              ),
-            )
+            QuotesCubitView(instrument: instrument),
           ],
         ),
       ),

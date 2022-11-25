@@ -25,3 +25,7 @@ Uri getFavoriteInstrumentsUri(Map<String, dynamic>? queryParameters) {
 Uri getInstrumentsUri(Map<String, dynamic>? queryParameters) {
   return Uri.http(baseUrl, _instrumentsPath, queryParameters);
 }
+
+String getQuotesUrl(String useruuid) {
+  return 'ws://$apiUrl:$quotesPort/$quotesPath?userUuid=$useruuid';
+}

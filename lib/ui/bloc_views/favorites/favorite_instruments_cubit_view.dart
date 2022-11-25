@@ -18,8 +18,8 @@ class FavoriteInstrumentsCubitView extends StatelessWidget {
   const FavoriteInstrumentsCubitView({super.key});
 
   void blocListner(BuildContext context, FavoriteInstrumentsState state) {
-    if (state is LoadedFavoriteInstrumentsState ||
-        state is EmptyFavoriteInstrumentsState) {
+    if (state is! InitialFavoriteInstrumentsState &&
+        state is! LoadingFavoriteInstrumentsState) {
       FlutterNativeSplash.remove();
     }
     if (state is ErrorFavoriteInstrumentsState) {
