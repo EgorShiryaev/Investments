@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../logic/models/currency.dart';
 import '../../../logic/models/instrument.dart';
 import '../../blocs/favorites/quotes_cubit.dart/quotes_cubit.dart';
 import '../../blocs/favorites/quotes_cubit.dart/quotes_state.dart';
@@ -77,12 +78,14 @@ class _InstrumentCurrentPriceState extends State<InstrumentCurrentPrice> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final currencyChar = getCurrenyChar(widget.instrument.currency) ??
+        widget.instrument.currency;
     return BlocListener<QuotesCubit, QuotesState>(
       listener: blocListner,
       child: price == null
           ? const LoadingIndicator(size: Size(25, 25))
           : Text(
-              '$price ${widget.instrument.currency}',
+              '$price $currencyChar',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w700,
