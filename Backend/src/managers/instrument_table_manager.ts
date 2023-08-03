@@ -36,24 +36,23 @@ const add = async (instrument: Instrument) => {
 };
 
 const addSeveral = async (instruments: Instrument[]) => {
-  const placeholders = instruments.map(() => '(?, ?, ?, ?, ?, ?)').join(', ');
+  const promises = [];
+  for (const instrument of instruments) {
+    const values = [
+      instrument.figi,
+      instrument.ticker,
+      instrument.title,
+      instrument.lot,
+      instrument.currency,
+      instrument.instrumentType,
+    ];
+    const script = `INSERT INTO ${instrumentTableTitle} 
+    (figi, ticker, title, lot, currency, instrumentType) 
+    VALUES (?, ?, ?, ?, ?, ?)`;
 
-  const values = instruments
-    .map((v) => [
-      v.figi,
-      v.ticker,
-      v.title,
-      v.lot,
-      v.currency,
-      v.instrumentType,
-    ])
-    .flat();
-
-  const script = `INSERT INTO ${instrumentTableTitle} 
-  (figi, ticker, title, lot, currency, instrumentType) 
-  VALUES ${placeholders}`;
-
-  return await databaseManager.runScript(script, values);
+    promises.push(databaseManager.runScript(script, values));
+  }
+  return Promise.all(promises);
 };
 
 const edit = async (instrument: Instrument) => {
